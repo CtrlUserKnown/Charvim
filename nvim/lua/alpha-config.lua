@@ -6,11 +6,10 @@ local function read_ascii_art()
     local config_path = vim.fn.stdpath('config')
     local art_path = config_path .. '/lua/img/charVim.txt'
     local file = io.open(art_path, 'r')
-    
+
     if file then
         local lines = {}
         for line in file:lines() do
-            -- Remove first and last character if they are brackets
             if line:sub(1,1) == '[' and line:sub(-1,-1) == ']' then
                 table.insert(lines, line:sub(2, -2))
             else
@@ -20,7 +19,6 @@ local function read_ascii_art()
         file:close()
         return lines
     else
-        -- Fallback if file not found
         return {
             "                                 ",
             " \xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88        \xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88\xe2\x96\x88  ",
@@ -44,24 +42,22 @@ local function read_ascii_art()
     end
 end
 
--- Set the custom ASCII art header
 dashboard.section.header.val = read_ascii_art()
 
--- Set menu buttons
 dashboard.section.buttons.val = {
-    dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
-    dashboard.button("n", "  New file", ":ene <BAR> startinsert <CR>"),
+    dashboard.button("f", "  Find file",    ":Telescope find_files <CR>"),
+    dashboard.button("p", "  Projects",     ":Telescope projects <CR>"),
+    dashboard.button("n", "  New file",     ":ene <BAR> startinsert <CR>"),
     dashboard.button("r", "  Recent files", ":Telescope oldfiles <CR>"),
-    dashboard.button("g", "  Find text", ":Telescope live_grep <CR>"),
-    dashboard.button("c", "  Config", ":e $MYVIMRC <CR>"),
-    dashboard.button("l", "󰒲  Lazy", ":Lazy<CR>"),
-    dashboard.button("q", "  Quit", ":qa<CR>"),
+    dashboard.button("g", "  Find text",    ":Telescope live_grep <CR>"),
+    dashboard.button("c", "  Config",       ":e $MYVIMRC <CR>"),
+    dashboard.button("l", "󰒲  Lazy",         ":Lazy<CR>"),
+    dashboard.button("q", "  Quit",         ":qa<CR>"),
 }
 
--- goto dashboard
-vim.keymap.set('n', '<leader>d', ':Alpha<CR>', { desc = 'Go to Dashboard'})
+vim.keymap.set('n', '<leader>d', ':Alpha<CR>', { desc = 'Go to Dashboard' })
+vim.keymap.set('n', '<leader>p', ':Telescope projects<CR>', { desc = 'Projects' })
 
--- Set footer
 local function footer()
     local datetime = os.date(" %d-%m-%Y   %H:%M:%S")
     local version = vim.version()
@@ -71,7 +67,6 @@ end
 
 dashboard.section.footer.val = footer()
 
--- Layout
 dashboard.config.layout = {
     { type = "padding", val = 2 },
     dashboard.section.header,
@@ -81,7 +76,6 @@ dashboard.config.layout = {
     dashboard.section.footer,
 }
 
--- Disable folding on alpha buffer
 dashboard.config.opts.noautocmd = true
 
 alpha.setup(dashboard.config)

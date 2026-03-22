@@ -53,7 +53,7 @@ return
         priority = 1000,
         config = function()
             require('rose-pine').setup({
-                variant = 'main', -- 'main', 'moon', or 'dawn'
+                variant = 'main',
                 disable_background = true,
                 disable_float_background = true,
                 disable_italics = false,
@@ -62,7 +62,6 @@ return
                 }
             })
             vim.cmd('colorscheme rose-pine')
-
         end
     },
 
@@ -106,8 +105,18 @@ return
         end,
     },
 
-
-
+    -- Project management
+    {
+        "ahmedkhalf/project.nvim",
+        config = function()
+            require("project_nvim").setup({
+                detection_methods = { "pattern", "lsp" },
+                patterns = { ".git", "Makefile", "package.json", "pom.xml", "build.gradle", "Cargo.toml" },
+                show_hidden = false,
+                silent_chdir = true,
+            })
+        end,
+    },
 
     -- Telescope and file browser extension
     {
@@ -115,6 +124,7 @@ return
         dependencies = {
             'nvim-lua/plenary.nvim',
             'nvim-telescope/telescope-file-browser.nvim',
+            'ahmedkhalf/project.nvim',
         },
         config = function()
             local telescope = require('telescope')
@@ -125,18 +135,13 @@ return
                 defaults = {
                     prompt_prefix = ' 🔎  ',
                     selection_caret = '▸',
-                    file_ignore_patterns = { "%.git/" }, -- only ignore .git directory
+                    file_ignore_patterns = { "%.git/" },
                     mappings = {
                         i = {
-                            -- Toggle hidden files with Ctrl+.
                             ["<C-.>"] = function(prompt_bufnr)
                                 local picker = action_state.get_current_picker(prompt_bufnr)
                                 local finder = picker.finder
-
-                                -- Toggle the hidden option
                                 finder.hidden = not finder.hidden
-
-                                -- Refresh the picker with new settings
                                 picker:refresh(require('telescope.finders').new_oneshot_job(
                                     vim.tbl_flatten({
                                         "fd",
@@ -152,18 +157,20 @@ return
                 },
                 pickers = {
                     find_files = {
-                        hidden = true, -- show hidden files by default
+                        hidden = true,
                     },
                 },
                 extensions = {
                     file_browser = {
                         hidden = true,
-                        hijack_netrw = true, -- Telescope instead of netrw
+                        hijack_netrw = true,
                     },
+                    projects = {},
                 },
             })
-            -- load file browser extension
+
             pcall(telescope.load_extension, 'file_browser')
+            pcall(telescope.load_extension, 'projects')
         end,
     },
 
@@ -180,7 +187,6 @@ return
                 preset = "modern",
             })
 
-            -- Add key descriptions
             wk.add({
                 { "<leader>r", group = "Refactor" },
                 { "<leader>w", desc = "Save file" },
@@ -188,6 +194,7 @@ return
                 { "<leader>Q", desc = "Quit without saving" },
                 { "<leader>e", desc = "File explorer" },
                 { "<leader>v", desc = "File explorer" },
+                { "<leader>p", desc = "Projects" },
             })
         end,
     },
@@ -213,16 +220,16 @@ return
         config = function()
             require('mason-nvim-dap').setup({
                 ensure_installed = {
-                    'python',   -- debugpy
-                    'javadbg',  -- java-debug
-                    'codelldb', -- c, c++, swift
+                    'python',
+                    'javadbg',
+                    'codelldb',
                 },
                 automatic_installation = true,
             })
         end,
     },
 
-    -- noice.nvim - Better UI for cmdline and popups
+    -- noice.nvim
     {
         "folke/noice.nvim",
         event = "VeryLazy",
@@ -243,7 +250,7 @@ return
                 },
             },
             messages = {
-                enabled = false,  -- Disable messages to avoid needing nvim-notify
+                enabled = false,
             },
             popupmenu = {
                 enabled = true,
@@ -282,7 +289,7 @@ return
                         open = "<M-CR>"
                     },
                     layout = {
-                        position = "bottom", -- | top | left | right
+                        position = "bottom",
                         ratio = 0.4
                     },
                 },
@@ -310,13 +317,13 @@ return
                     cvs = false,
                     ["."] = false,
                 },
-                copilot_node_command = 'node', -- Node.js version must be > 18.x
+                copilot_node_command = 'node',
                 server_opts_overrides = {},
             })
         end,
     },
 
-    -- Copilot CMP source (optional - integrates Copilot with nvim-cmp)
+    -- Copilot CMP source
     {
         "zbirenbaum/copilot-cmp",
         dependencies = { "zbirenbaum/copilot.lua" },
@@ -333,7 +340,7 @@ return
         end
     },
 
-    -- Typst Preview (browser-based preview with low latency)
+    -- Typst Preview
     {
         'chomosuke/typst-preview.nvim',
         ft = 'typst',
@@ -343,7 +350,6 @@ return
         end,
         opts = {},
         config = function()
-            -- Create custom commands for Typst preview
             vim.api.nvim_create_user_command('TP', 'TypstPreview', { desc = 'Start Typst preview' })
             vim.api.nvim_create_user_command('TS', 'TypstPreviewStop', { desc = 'Stop Typst preview' })
             vim.api.nvim_create_user_command('TU', 'TypstPreviewUpdate', { desc = 'Update Typst preview' })
@@ -351,14 +357,14 @@ return
     },
 
     -- Completion plugins
-    'hrsh7th/nvim-cmp',     -- The completion plugin
-    'hrsh7th/cmp-buffer',   -- buffer completions
-    'hrsh7th/cmp-path',     -- path completions
-    'hrsh7th/cmp-cmdline',  -- cmdline completions
-    'hrsh7th/cmp-nvim-lsp', -- LSP completions
-    'hrsh7th/cmp-nvim-lua', -- Lua completions
+    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lua',
 
-    -- Snippet engine (required for nvim-cmp)
-    'L3MON4D3/LuaSnip',         -- snippet engine
-    'saadparwaiz1/cmp_luasnip', -- snippet completions
+    -- Snippet engine
+    'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
 }
