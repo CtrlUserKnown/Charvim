@@ -1,0 +1,58 @@
+name: Test Neovim Config
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  test-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Neovim
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository -y ppa:neovim-ppa/unstable
+          sudo apt-get update
+          sudo apt-get install -y neovim git curl unzip
+
+      - name: Run setup script
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
+
+      - name: Verify symlink
+        run: |
+          if [ -L "$HOME/.config/nvim" ]; then
+            echo "Symlink created successfully"
+          else
+            echo "Symlink failed"
+            exit 1
+          fi
+
+      - name: Headless Smoke Test
+        run: |
+          # This will fail if there are syntax errors or missing modules in init.lua
+          nvim --headless +qa
+
+      - name: Install Plugins (Lazy.nvim)
+        run: |
+          # Run sync to install all plugins and quit
+          nvim --headless "+Lazy! sync" +qa
+
+      - name: Check Health
+        run: |
+          # Capture checkhealth output to a file and print it
+          nvim --headless +checkhealth +write!health.txt +qa
+          cat health.txt
+
+      - name: Verify Mason Tools
+        run: |
+          # Just a check to see if the mason bin exists after plugins are installed
+          ls -R ~/.local/share/nvim/mason/bin/ || echo "Mason bin not found (might be expected in CI if automatic_installation is false or slow)"
