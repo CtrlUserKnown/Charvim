@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-03-29
+
+### Added
+- **projects**: Added `project.nvim` for smart project management and workspace switching, integrated with Telescope.
+- **CI**: Added Neovim configuration tests to GitHub Actions.
+
+### Changed
+- **docs**: Cleaned up README by removing unnecessary emojis.
+- **meta**: Added `.DS_Store` to `.gitignore`.
+
+### Removed
+- **cleanup**: Removed old `.nvim.bak` version from the repository.
+
 ## [1.1.0] - 2026-03-10
 
 ### Added
