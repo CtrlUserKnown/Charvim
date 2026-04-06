@@ -1,6 +1,6 @@
 -- force Escape key to always work
 vim.keymap.set('i', '<Esc>', '<Esc>', { noremap = true, silent = true })
-vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true }) -- Alternative: type 'jk' quickly
+vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
 
 -- save and quit with leader keys
 vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true, silent = true, desc = 'Save file' })
@@ -17,7 +17,7 @@ vim.keymap.set('n', 'L', '$', { noremap = true, silent = true, desc = 'Go to end
 vim.keymap.set('v', 'H', '0', { noremap = true, silent = true, desc = 'Go to beginning of line' })
 vim.keymap.set('v', 'L', '$', { noremap = true, silent = true, desc = 'Go to end of line' })
 
--- paragraph navigation with Option + ( and )
+-- paragraph navigation with Option + [ and ]
 vim.keymap.set('n', '<M-[>', '{', { noremap = true, silent = true, desc = 'Previous paragraph' })
 vim.keymap.set('n', '<M-]>', '}', { noremap = true, silent = true, desc = 'Next paragraph' })
 vim.keymap.set('v', '<M-[>', '{', { noremap = true, silent = true, desc = 'Previous paragraph' })
@@ -37,14 +37,8 @@ vim.keymap.set('n', '<C-S-j>', ':t .<CR>==', { desc = 'Copy line down' })
 vim.keymap.set('v', '<C-S-k>', ":t '<-1<CR>gv=gv", { desc = 'Copy selection up' })
 vim.keymap.set('v', '<C-S-j>', ":t '><CR>gv=gv", { desc = 'Copy selection down' })
 
--- Fix navigation when not inside tmux
+-- split navigation handled by vim-tmux-navigator
 vim.g.tmux_navigator_no_mappings = 1
-
--- Always allow Vim split navigation with CTRL + h/j/k/l
-vim.keymap.set('n', '<C-h>', '<C-w>h', { silent = true })
-vim.keymap.set('n', '<C-j>', '<C-w>j', { silent = true })
-vim.keymap.set('n', '<C-k>', '<C-w>k', { silent = true })
-vim.keymap.set('n', '<C-l>', '<C-w>l', { silent = true })
 
 -- terminal shortcut to run command without having to press :!
 vim.keymap.set('n', ';', ':!', { noremap = true })

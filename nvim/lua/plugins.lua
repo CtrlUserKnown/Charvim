@@ -65,9 +65,10 @@ return
         end
     },
 
-    -- Treesitter
+    -- Treesitter (pinned to main for Neovim 0.12 compatibility)
     {
         'nvim-treesitter/nvim-treesitter',
+        branch = 'main',
         build = ':TSUpdate',
     },
 

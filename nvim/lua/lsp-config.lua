@@ -35,7 +35,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '<leader>le', vim.diagnostic.open_float, opts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 
@@ -103,7 +103,6 @@ vim.lsp.config('sourcekit-lsp', {
     on_attach = on_attach,
 })
 
--- Auto-start sourcekit-lsp; on_attach is handled via vim.lsp.config above
 vim.api.nvim_create_autocmd('FileType', {
     pattern = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
     callback = function()
