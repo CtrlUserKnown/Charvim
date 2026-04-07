@@ -45,14 +45,15 @@ end
 dashboard.section.header.val = read_ascii_art()
 
 dashboard.section.buttons.val = {
-    dashboard.button("f", "  Find file",    ":Telescope find_files <CR>"),
-    dashboard.button("p", "  Projects",     ":Telescope projects <CR>"),
-    dashboard.button("n", "  New file",     ":ene <BAR> startinsert <CR>"),
-    dashboard.button("r", "  Recent files", ":Telescope oldfiles <CR>"),
-    dashboard.button("g", "  Find text",    ":Telescope live_grep <CR>"),
-    dashboard.button("c", "  Config",       ":e $MYVIMRC <CR>"),
+    dashboard.button("f", "   Find file",    ":Telescope find_files <CR>"),
+    dashboard.button("p", "   Projects",     ":Telescope projects <CR>"),
+    dashboard.button("n", "   New file",     ":ene <BAR> startinsert <CR>"),
+    dashboard.button("r", "   Recent files", ":Telescope oldfiles <CR>"),
+    dashboard.button("g", "   Find text",    ":Telescope live_grep <CR>"),
+    dashboard.button("c", "   Config",       ":e $MYVIMRC <CR>"),
     dashboard.button("l", "󰒲  Lazy",         ":Lazy<CR>"),
-    dashboard.button("q", "  Quit",         ":qa<CR>"),
+    dashboard.button("m", "   Mason",        ":Mason<CR>"),
+    dashboard.button("q", "   Quit",         ":qa<CR>"),
 }
 
 vim.keymap.set('n', '<leader>d', ':Alpha<CR>', { desc = 'Go to Dashboard' })
