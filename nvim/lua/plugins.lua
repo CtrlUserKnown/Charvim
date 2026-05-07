@@ -58,14 +58,14 @@ return
                 disable_float_background = true,
                 disable_italics = false,
                 highlight_groups = {
-                        CursorLineNr = { fg = 'gold', bold = true }
+                    CursorLineNr = { fg = 'gold', bold = true }
                 }
             })
             vim.cmd('colorscheme rose-pine')
         end
     },
 
-    -- Treesitter with nvim-ts-autotag bundled so parsers are ready before autotag attaches
+    -- Treesitter
     {
         'nvim-treesitter/nvim-treesitter',
         branch = 'main',
@@ -86,7 +86,7 @@ return
         },
     },
 
-    -- Mason (LSP/DAP/Linter installer)
+    -- Mason
     {
         'williamboman/mason.nvim',
         config = function()
@@ -133,7 +133,7 @@ return
         end,
     },
 
-    -- Telescope and file browser extension
+    -- Telescope
     {
         'nvim-telescope/telescope.nvim',
         dependencies = {
@@ -150,10 +150,7 @@ return
                 defaults = {
                     prompt_prefix = ' 🔎  ',
                     selection_caret = '▸',
-                    file_ignore_patterns = {
-                        "%.git/",
-                        "%DS_Store$"
-                    },
+                    file_ignore_patterns = { "%.git/", "%DS_Store$" },
                     mappings = {
                         i = {
                             ["<C-.>"] = function(prompt_bufnr)
@@ -162,8 +159,7 @@ return
                                 finder.hidden = not finder.hidden
                                 picker:refresh(require('telescope.finders').new_oneshot_job(
                                     vim.tbl_flatten({
-                                        "fd",
-                                        "--type", "f",
+                                        "fd", "--type", "f",
                                         finder.hidden and "--hidden" or "--no-hidden",
                                         "--color", "never"
                                     }),
@@ -174,15 +170,10 @@ return
                     },
                 },
                 pickers = {
-                    find_files = {
-                        hidden = true,
-                    },
+                    find_files = { hidden = true },
                 },
                 extensions = {
-                    file_browser = {
-                        hidden = true,
-                        hijack_netrw = true,
-                    },
+                    file_browser = { hidden = true, hijack_netrw = true },
                     projects = {},
                 },
             })
@@ -196,15 +187,10 @@ return
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
-        opts = {
-            preset = "modern",
-        },
+        opts = { preset = "modern" },
         config = function()
             local wk = require("which-key")
-            wk.setup({
-                preset = "modern",
-            })
-
+            wk.setup({ preset = "modern" })
             wk.add({
                 { "<leader>r", group = "Refactor" },
                 { "<leader>w", desc = "Save file" },
@@ -231,17 +217,13 @@ return
         end,
     },
 
-    -- Mason DAP installer
+    -- Mason DAP
     {
         'jay-babu/mason-nvim-dap.nvim',
         dependencies = { 'williamboman/mason.nvim', 'mfussenegger/nvim-dap' },
         config = function()
             require('mason-nvim-dap').setup({
-                ensure_installed = {
-                    'python',
-                    'javadbg',
-                    'codelldb',
-                },
+                ensure_installed = { 'python', 'javadbg', 'codelldb' },
                 automatic_installation = true,
             })
         end,
@@ -251,9 +233,7 @@ return
     {
         "folke/noice.nvim",
         event = "VeryLazy",
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-        },
+        dependencies = { "MunifTanjim/nui.nvim" },
         opts = {
             cmdline = {
                 enabled = true,
@@ -267,18 +247,12 @@ return
                     help = { icon = "?" },
                 },
             },
-            messages = {
-                enabled = false,
-            },
-            popupmenu = {
-                enabled = true,
-                backend = "nui",
-            },
+            messages = { enabled = false },
+            popupmenu = { enabled = true, backend = "nui" },
             lsp = {
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                     ["vim.lsp.util.stylize_markdown"] = true,
-                    ["cmp.entry.get_documentation"] = true,
                 },
             },
             presets = {
@@ -306,10 +280,7 @@ return
                         refresh = "gr",
                         open = "<M-CR>"
                     },
-                    layout = {
-                        position = "bottom",
-                        ratio = 0.4
-                    },
+                    layout = { position = "bottom", ratio = 0.4 },
                 },
                 suggestion = {
                     enabled = true,
@@ -325,15 +296,9 @@ return
                     },
                 },
                 filetypes = {
-                    yaml = false,
-                    markdown = false,
-                    help = false,
-                    gitcommit = false,
-                    gitrebase = false,
-                    hgcommit = false,
-                    svn = false,
-                    cvs = false,
-                    ["."] = false,
+                    yaml = false, markdown = false, help = false,
+                    gitcommit = false, gitrebase = false,
+                    hgcommit = false, svn = false, cvs = false, ["."] = false,
                 },
                 copilot_node_command = 'node',
                 server_opts_overrides = {},
@@ -341,19 +306,10 @@ return
         end,
     },
 
-    -- Copilot CMP source
-    {
-        "zbirenbaum/copilot-cmp",
-        dependencies = { "zbirenbaum/copilot.lua" },
-        config = function()
-            require("copilot_cmp").setup()
-        end
-    },
-
     -- alpha-nvim dashboard
     {
         "goolord/alpha-nvim",
-        config = function ()
+        config = function()
             require('alpha-config')
         end
     },
@@ -363,9 +319,7 @@ return
         'chomosuke/typst-preview.nvim',
         ft = 'typst',
         version = '1.*',
-        build = function()
-            require('typst-preview').update()
-        end,
+        build = function() require('typst-preview').update() end,
         opts = {},
         config = function()
             vim.api.nvim_create_user_command('TP', 'TypstPreview', { desc = 'Start Typst preview' })
@@ -374,15 +328,6 @@ return
         end
     },
 
-    -- Completion plugins
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-nvim-lua',
-
-    -- Snippet engine
+    -- Snippet engine (kept for DAP/LSP snippet expansion)
     'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip',
 }

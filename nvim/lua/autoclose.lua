@@ -35,69 +35,52 @@ local config = {
 }
 
 local function insert_get_pair()
-    -- add "_" to let close function work in the first col
     local line = "_" .. vim.api.nvim_get_current_line()
     local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-
     return line:sub(col, col + 1)
 end
 
 local function command_get_pair()
-    -- add "_" to let close function work in the first col
     local line = "_" .. vim.fn.getcmdline()
     local col = vim.fn.getcmdpos()
-
     return line:sub(col, col + 1)
 end
 
 local function is_pair(pair)
-    if pair == "  " then
-        return false
-    end
-
+    if pair == "  " then return false end
     for _, info in pairs(config.keys) do
-        if pair == info.pair then
-            return true
-        end
+        if pair == info.pair then return true end
     end
     return false
 end
 
 local function is_disabled(info)
-    if config.disabled then
-        return true
-    end
-    local current_filetype = vim.api.nvim_buf_get_option(0, "filetype")
+    if config.disabled then return true end
+
+    -- use vim.bo instead of deprecated nvim_buf_get_option
+    local current_filetype = vim.bo.filetype
+
     for _, filetype in pairs(config.options.disabled_filetypes) do
-        if filetype == current_filetype then
-            return true
-        end
+        if filetype == current_filetype then return true end
     end
 
     if info["enabled_filetypes"] ~= nil then
         for _, filetype in pairs(info.enabled_filetypes) do
-            if filetype == current_filetype then
-                return false
-            end
+            if filetype == current_filetype then return false end
         end
         return true
     end
 
-    -- Let's check if the disabled_filetypes key is in the info table
     if info["disabled_filetypes"] ~= nil then
         for _, filetype in pairs(info.disabled_filetypes) do
-            if filetype == current_filetype then
-                return true
-            end
+            if filetype == current_filetype then return true end
         end
     end
     return false
 end
 
 local function handler(key, info, mode)
-    if is_disabled(info) then
-        return key
-    end
+    if is_disabled(info) then return key end
 
     local pair = mode == "insert" and insert_get_pair() or command_get_pair()
 
@@ -112,7 +95,6 @@ local function handler(key, info, mode)
     elseif info.escape and pair:sub(2, 2) == key then
         return mode == "insert" and "<C-G>U<Right>" or "<Right>"
     elseif info.close then
-        -- disable if the cursor touches alphanumeric character
         if
             config.options.disable_when_touch
             and (pair .. "_"):sub(2, 2):match(config.options.touch_regex)
@@ -120,7 +102,6 @@ local function handler(key, info, mode)
             return key
         end
 
-        -- don't pair spaces
         if
             key == " "
             and (
@@ -138,18 +119,12 @@ local function handler(key, info, mode)
     end
 end
 
--- Visual mode handler to wrap selection
 local function visual_handler(key, info)
-    if is_disabled(info) then
-        return key
-    end
+    if is_disabled(info) then return key end
 
-    -- Only wrap with pairs that have the close property
     if info.close and info.pair then
         local open_char = info.pair:sub(1, 1)
         local close_char = info.pair:sub(2, 2)
-
-        -- Use 'c' to delete selection and enter insert mode, then surround
         return string.format('<Esc>`>a%s<Esc>`<i%s<Esc>', close_char, open_char)
     else
         return key
@@ -172,12 +147,10 @@ function autoclose.setup(user_config)
     end
 
     for key, info in pairs(config.keys) do
-        -- Insert mode mapping
         vim.keymap.set("i", key, function()
             return (key == " " and "<C-]>" or "") .. handler(key, info, "insert")
         end, { noremap = true, expr = true })
 
-        -- Command mode mapping
         if
             not config.options.disable_command_mode
             and not info.disable_command_mode
@@ -188,7 +161,6 @@ function autoclose.setup(user_config)
             end, { noremap = true, expr = true })
         end
 
-        -- Visual mode mapping for wrapping selections
         if info.close and info.pair then
             vim.keymap.set("x", key, function()
                 return visual_handler(key, info)
