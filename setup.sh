@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # --- CharVim: Install Script ---
-# Author: CrtlUserUnknown
+# Author: CtrlUserUnknown
 # GitHub: www.github.com/CrtlUserKnown
 
 REPO_URL="https://github.com/CrtlUserKnown/Charvim.git"
@@ -61,9 +61,7 @@ run_step() {
     local cmd="$3"
 
     if [[ -n "$GUM" ]]; then
-        # Spin with the initial title
         $GUM spin --spinner dots --title " $title" -- bash -c "$cmd"
-        # Move cursor up and clear line to replace with result
         echo -e "\033[1A\033[K  $result"
     else
         echo -n "$title... "
@@ -84,15 +82,12 @@ fi
 # Step: ~/.config
 if [[ ! -d "$CONFIG_DIR" ]]; then
     run_step "Preparing directory" "directory: $CONFIG_DIR" "mkdir -p '$CONFIG_DIR'"
-    # No rollback for ~/.config as it's standard, but we could if needed
 fi
 
-# Step: Source Detection
+# Step: Source Detection — remote URL check dropped intentionally.
+# Presence of .git and nvim/ in the working directory is sufficient.
 IS_CLONED=false
-REMOTE_URL=$(git remote get-url origin 2>/dev/null | tr '[:upper:]' '[:lower:]')
-REPO_PATTERN=$(echo "$REPO_URL" | tr '[:upper:]' '[:lower:]' | sed 's/\.git$//')
-
-if [[ -d ".git" ]] && [[ -d "nvim" ]] && [[ "$REMOTE_URL" == *"$REPO_PATTERN"* ]]; then
+if [[ -d ".git" ]] && [[ -d "nvim" ]]; then
     IS_CLONED=true
     SOURCE_DIR="$(pwd)"
 fi
