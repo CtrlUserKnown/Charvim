@@ -65,11 +65,25 @@ return
         end
     },
 
-    -- Treesitter (pinned to main for Neovim 0.12 compatibility)
+    -- Treesitter with nvim-ts-autotag bundled so parsers are ready before autotag attaches
     {
         'nvim-treesitter/nvim-treesitter',
         branch = 'main',
         build = ':TSUpdate',
+        dependencies = {
+            {
+                'windwp/nvim-ts-autotag',
+                config = function()
+                    require('nvim-ts-autotag').setup({
+                        opts = {
+                            enable_close = true,
+                            enable_rename = true,
+                            enable_close_on_slash = true,
+                        },
+                    })
+                end,
+            },
+        },
     },
 
     -- Mason (LSP/DAP/Linter installer)
@@ -136,7 +150,10 @@ return
                 defaults = {
                     prompt_prefix = ' 🔎  ',
                     selection_caret = '▸',
-                    file_ignore_patterns = { "%.git/" },
+                    file_ignore_patterns = {
+                        "%.git/",
+                        "%DS_Store$"
+                    },
                     mappings = {
                         i = {
                             ["<C-.>"] = function(prompt_bufnr)

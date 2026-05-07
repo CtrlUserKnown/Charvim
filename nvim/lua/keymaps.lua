@@ -42,3 +42,44 @@ vim.g.tmux_navigator_no_mappings = 1
 
 -- terminal shortcut to run command without having to press :!
 vim.keymap.set('n', ';', ':!', { noremap = true })
+
+-- runners
+-- open current HTML file in browser
+local function open_in_browser()
+    local file = vim.fn.expand('%:p')
+    if vim.fn.expand('%:e') ~= 'html' then
+        vim.notify('Not an HTML file', vim.log.levels.WARN)
+        return
+    end
+    local opener = vim.fn.has('mac') == 1 and 'open' or 'xdg-open'
+    vim.fn.jobstart({ opener, file }, { detach = true })
+end
+
+vim.keymap.set('n', '<leader>ob', open_in_browser, { desc = 'Open HTML in browser' })
+vim.api.nvim_create_user_command('OpenInBrowser', open_in_browser, { desc = 'Open current HTML file in browser' })
+
+-- run current Python file in a terminal split
+local function run_python()
+    if vim.fn.expand('%:e') ~= 'py' then
+        vim.notify('Not a Python file', vim.log.levels.WARN)
+        return
+    end
+    vim.cmd('split | terminal python3 ' .. vim.fn.shellescape(vim.fn.expand('%:p')))
+end
+
+vim.keymap.set('n', '<leader>rp', run_python, { desc = 'Run Python file' })
+vim.api.nvim_create_user_command('RunPython', run_python, { desc = 'Run current Python file' })
+
+-- run current Java file in a terminal split (compiles then runs)
+local function run_java()
+    if vim.fn.expand('%:e') ~= 'java' then
+        vim.notify('Not a Java file', vim.log.levels.WARN)
+        return
+    end
+    local file = vim.fn.shellescape(vim.fn.expand('%:p'))
+    local dir  = vim.fn.shellescape(vim.fn.expand('%:p:h'))
+    vim.cmd('split | terminal cd ' .. dir .. ' && javac ' .. file .. ' && java ' .. vim.fn.expand('%:t:r'))
+end
+
+vim.keymap.set('n', '<leader>rj', run_java, { desc = 'Run Java file' })
+vim.api.nvim_create_user_command('RunJava', run_java, { desc = 'Run current Java file' })

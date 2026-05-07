@@ -10,6 +10,7 @@ local function add_word_to_dictionary(word, client_name)
                 }
             }
         }
+        -- use client:exec_cmd() via on_attach scope; fallback here for direct call
         vim.lsp.buf.execute_command(params)
     end
 
@@ -22,7 +23,8 @@ end
 local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
-    if client.server_capabilities.inlayHintProvider then
+    -- client:supports_method() replaces client.server_capabilities check (0.12+)
+    if client:supports_method('textDocument/inlayHint') then
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
 
