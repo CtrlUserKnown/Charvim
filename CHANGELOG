@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-05-06
+
+This release focuses on compatibility and optimization for Neovim 0.12, including the transition to native completion and internal refactors to support the latest editor features.
+
+### Added
+- **dashboard**: Added Mason integration to the `alpha-nvim` dashboard for quick access to package management.
+- **runners**: New keybindings and user commands to run HTML (in browser), Python, and Java files directly from the editor.
+- **editing**: Added `nvim-ts-autotag` as a Treesitter dependency for improved HTML/XML tag management.
+
+### Changed
+- **core**: Major internal refactoring and optimizations for Neovim 0.12 compatibility.
+- **completion**: Switched to native LSP completion (Neovim 0.12+) and removed `nvim-cmp` and related plugins for a leaner setup.
+- **statusline**: Refactored statusline for better performance and mode-specific color feedback (Normal: Gold, Insert: Blue, Visual: Purple, Command/Replace: Pink).
+- **treesitter**: Updated configuration to use the new `main` branch for 0.12 compatibility.
+- **ui**: Streamlined dashboard button layout and updated `which-key` presets.
+
+### Fixed
+- **compatibility**: Resolved several breaking changes introduced in Neovim 0.12, including updated LSP capability checks (`client:supports_method`) and Treesitter parser retrieval.
+- **setup**: Improved reliability of the `setup.sh` script, specifically addressing pathing issues in CI/GitHub Actions environments.
+- **options**: Corrected `scrolloff` setting which was previously incorrectly set as a global Lua variable.
+
 ## [1.2.0] - 2026-03-29
 
 ### Added
