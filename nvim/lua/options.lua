@@ -18,6 +18,8 @@ vim.keymap.set('n', '<leader>E', function()
     require('telescope').extensions.file_browser.file_browser({ path = path, hidden = true })
 end)
 
+vim.keymap.set('n', '<leader>g', ':Telescope live_grep<CR>', { noremap = true, silent = true, desc = 'Live grep' })
+
 vim.scriptencoding = "utf-8"
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"

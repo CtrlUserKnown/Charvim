@@ -83,3 +83,25 @@ end
 
 vim.keymap.set('n', '<leader>rj', run_java, { desc = 'Run Java file' })
 vim.api.nvim_create_user_command('RunJava', run_java, { desc = 'Run current Java file' })
+
+-- refactoring: variable renaming
+-- this will make 
+local function project_rename()
+    local word = vim.fn.expand('<cword>')
+    local replacement = vim.fn.input('Replace "' .. word .. '" with: ')
+    if replacement == '' then return end
+
+    require('telescope.builtin').grep_string({
+        search = word,
+        attach_mappings = function(_, map)
+            map('i', '<CR>', function(prompt_bufnr)
+                require('telescope.actions').send_to_qflist(prompt_bufnr)
+                vim.cmd('cdo s/\\<' .. word .. '\\>/' .. replacement .. '/g | update')
+                vim.cmd('cclose')
+            end)
+            return true
+        end,
+    })
+end
+
+vim.keymap.set('n', '<leader>R', project_rename, { desc = 'Project rename' })

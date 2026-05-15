@@ -199,6 +199,7 @@ return
                 { "<leader>e", desc = "File explorer" },
                 { "<leader>v", desc = "File explorer" },
                 { "<leader>p", desc = "Projects" },
+                { "<leader>g", desc = "Live grep" },
             })
         end,
     },
