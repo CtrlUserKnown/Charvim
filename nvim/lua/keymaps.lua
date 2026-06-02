@@ -47,12 +47,23 @@ vim.keymap.set('n', ';', ':!', { noremap = true })
 -- open current HTML file in browser
 local function open_in_browser()
     local file = vim.fn.expand('%:p')
-    if vim.fn.expand('%:e') ~= 'html' then
+    local ext = vim.fn.expand('%:e')
+    if ext ~= 'html' and ext ~= 'htm' then
         vim.notify('Not an HTML file', vim.log.levels.WARN)
         return
     end
-    local opener = vim.fn.has('mac') == 1 and 'open' or 'xdg-open'
-    vim.fn.jobstart({ opener, file }, { detach = true })
+    local opener
+    if vim.fn.has('mac') == 1 then
+        opener = 'open'
+    elseif vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
+        opener = 'start'
+    else
+        opener = 'xdg-open'
+    end
+    local ok = vim.fn.jobstart({ opener, file }, { detach = true })
+    if ok == -1 or ok == 0 then
+        vim.notify('Failed to open file in browser', vim.log.levels.ERROR)
+    end
 end
 
 vim.keymap.set('n', '<leader>ob', open_in_browser, { desc = 'Open HTML in browser' })

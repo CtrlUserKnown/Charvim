@@ -9,6 +9,7 @@ vim.api.nvim_set_hl(0, 'CursorLineNr', {
 require('statusline')
 require('options')
 require('keymaps')
+require('multicursor').setup()
 
 require('autoclose').setup()
 

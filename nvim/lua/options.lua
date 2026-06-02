@@ -46,3 +46,9 @@ vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
 
 vim.opt.cmdheight = 0
 vim.opt.showcmd = false
+
+-- search incramental
+vim.opt.inccommand = "split"
+
+-- undo dirfor nvim
+vim.opt.undodir = vim.fn.stdpath("data") .. "/undodir"

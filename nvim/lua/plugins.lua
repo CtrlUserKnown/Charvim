@@ -10,12 +10,12 @@ return
         end
     },
 
-    -- Multi-cursor support
-    {
-        "mg979/vim-visual-multi",
-        branch = "master",
-        lazy = false,
-    },
+    -- Multi-cursor support (replaced by homebrew multicursor.lua)
+    -- {
+    --     "mg979/vim-visual-multi",
+    --     branch = "master",
+    --     lazy = false,
+    -- },
 
     -- Vim-Tmux-Navigator
     {
@@ -26,6 +26,7 @@ return
             "TmuxNavigateUp",
             "TmuxNavigateRight",
             "TmuxNavigatePrevious",
+
         },
         keys = {
             { "<c-h>", "<cmd>TmuxNavigateLeft<cr>" },

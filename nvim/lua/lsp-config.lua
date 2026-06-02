@@ -10,7 +10,6 @@ local function add_word_to_dictionary(word, client_name)
                 }
             }
         }
-        -- use client:exec_cmd() via on_attach scope; fallback here for direct call
         vim.lsp.buf.execute_command(params)
     end
 
@@ -23,7 +22,6 @@ end
 local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
-    -- client:supports_method() replaces client.server_capabilities check (0.12+)
     if client:supports_method('textDocument/inlayHint') then
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
@@ -117,6 +115,31 @@ local handlers = {
         lspconfig[server_name].setup {
             on_attach = on_attach,
             capabilities = capabilities,
+        }
+    end,
+
+    ['lua_ls'] = function()
+        lspconfig.lua_ls.setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    runtime = {
+                        version = 'LuaJIT',
+                    },
+                    workspace = {
+                        checkThirdParty = false,
+                        -- exposes the full nvim runtime to lua_ls so vim.* is recognised
+                        library = vim.api.nvim_get_runtime_file("", true),
+                    },
+                    diagnostics = {
+                        globals = { 'vim' },
+                    },
+                    telemetry = {
+                        enable = false,
+                    },
+                },
+            },
         }
     end,
 
