@@ -6,6 +6,7 @@ vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true, silent = true, desc = 'Save file' })
 vim.keymap.set('n', '<leader>q', ':wq<CR>', { noremap = true, silent = true, desc = 'Save and quit' })
 vim.keymap.set('n', '<leader>qq', ':q!<CR>', { noremap = true, silent = true, desc = 'Quit without saving' })
+vim.keymap.set('n', '<leader>t', ':tabnew | Telescope file_browser path=%:p:h select_buffer=true hidden=true<CR>', { desc = 'New tab with file explorer' })
 
 -- go to beginning and end of file
 vim.keymap.set('n', '[[', 'gg', { noremap = true, silent = true, desc = 'Go to beginning of file' })

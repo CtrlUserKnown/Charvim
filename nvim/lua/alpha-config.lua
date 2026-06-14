@@ -53,6 +53,7 @@ dashboard.section.buttons.val = {
     dashboard.button("c", "   Config",       ":e $MYVIMRC <CR>"),
     dashboard.button("l", "󰒲  Lazy",         ":Lazy<CR>"),
     dashboard.button("m", "   Mason",        ":Mason<CR>"),
+    dashboard.button("t", "   Themes",       ":ThemeSelect<CR>"),
     dashboard.button("q", "   Quit",         ":qa<CR>"),
 }
 

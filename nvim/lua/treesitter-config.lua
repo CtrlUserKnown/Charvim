@@ -2,14 +2,15 @@ local status_ok, ts = pcall(require, 'nvim-treesitter')
 if not status_ok then return end
 
 vim.filetype.add({
-    extension = { cr = 'crystal' },
+    extension = { cr = 'crystal', plist = 'xml' },
 })
 
 ts.setup({
     ensure_installed = {
         "c", "lua", "vim", "vimdoc", "query",
         "javascript", "typescript", "python", "rust", "go",
-        "html", "css", "json", "markdown", "bash", "yaml", "toml"
+        "html", "css", "json", "markdown", "bash", "yaml", "toml",
+        "xml"
     },
 
     sync_install = false,

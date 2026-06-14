@@ -62,8 +62,40 @@ return
                     CursorLineNr = { fg = 'gold', bold = true }
                 }
             })
-            vim.cmd('colorscheme rose-pine')
         end
+    },
+
+    -- Tokyo Night
+    {
+        'folke/tokyonight.nvim',
+        lazy = false,
+        priority = 1000,
+        opts = {
+            style = 'night',
+            transparent = true,
+        },
+    },
+
+    -- Catppuccin
+    {
+        'catppuccin/nvim',
+        name = 'catppuccin',
+        lazy = false,
+        priority = 1000,
+        opts = {
+            flavour = 'mocha',
+            transparent_background = true,
+        },
+    },
+
+    -- Gruvbox
+    {
+        'ellisonleao/gruvbox.nvim',
+        lazy = false,
+        priority = 1000,
+        opts = {
+            transparent_mode = true,
+        },
     },
 
     -- Treesitter
@@ -87,7 +119,7 @@ return
         },
     },
 
-    -- Mason
+    -- Mason (LSP servers, linters, DAP installers)
     {
         'williamboman/mason.nvim',
         config = function()
@@ -99,24 +131,6 @@ return
                         package_uninstalled = "✗"
                     }
                 }
-            })
-        end,
-    },
-
-    {
-        'williamboman/mason-lspconfig.nvim',
-        dependencies = { 'williamboman/mason.nvim', 'neovim/nvim-lspconfig' },
-        config = function()
-            local lsp_config = require('lsp-config')
-            require('mason-lspconfig').setup({
-                ensure_installed = {
-                    'lua_ls',
-                    'pyright',
-                    'ts_ls',
-                    'jdtls',
-                },
-                automatic_installation = true,
-                handlers = lsp_config.handlers,
             })
         end,
     },
@@ -250,7 +264,7 @@ return
                 },
             },
             messages = { enabled = false },
-            popupmenu = { enabled = true, backend = "nui" },
+            popupmenu = { enabled = false },
             lsp = {
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -265,45 +279,50 @@ return
         },
     },
 
-    -- GitHub Copilot
+    -- avante.nvim (local AI code completion with Ollama + Qwen 2.5 Coder)
     {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
-        config = function()
-            require("copilot").setup({
-                panel = {
-                    enabled = true,
-                    auto_refresh = false,
-                    keymap = {
-                        jump_prev = "[[",
-                        jump_next = "]]",
-                        accept = "<CR>",
-                        refresh = "gr",
-                        open = "<M-CR>"
+        "yetone/avante.nvim",
+        event = "VeryLazy",
+        build = "make",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "stevearc/dressing.nvim",
+            "nvim-telescope/telescope.nvim",
+            "hrsh7th/nvim-cmp",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim",
+            {
+                "HakonHarnes/img-clip.nvim",
+                event = "VeryLazy",
+                opts = {
+                    default = {
+                        embed_image_as_base64 = false,
                     },
-                    layout = { position = "bottom", ratio = 0.4 },
                 },
-                suggestion = {
-                    enabled = true,
-                    auto_trigger = true,
-                    debounce = 75,
-                    keymap = {
-                        accept = "<M-l>",
-                        accept_word = false,
-                        accept_line = false,
-                        next = "<M-k>",
-                        prev = "<M-j>",
+            },
+        },
+        config = function()
+            vim.g.plenary_curl_bin_path = "/usr/bin/curl"
+            require("avante").setup({
+                provider = "ollama",
+                providers = {
+                    ollama = {
+                        model = "qwen2.5-coder:3b",
+                    },
+                },
+                hints = { enabled = true },
+                suggestion = { enabled = true, debounce = 75, mode = "inline" },
+                mappings = {
+                    suggestion = {
+                        accept = "<S-Tab>",
+                        next = "<M-]>",
                         dismiss = "<C-]>",
                     },
                 },
-                filetypes = {
-                    yaml = false, markdown = false, help = false,
-                    gitcommit = false, gitrebase = false,
-                    hgcommit = false, svn = false, cvs = false, ["."] = false,
+                behaviour = {
+                    auto_suggestions = true,
+                    enable_cursor_planning = false,
                 },
-                copilot_node_command = 'node',
-                server_opts_overrides = {},
             })
         end,
     },
@@ -329,6 +348,17 @@ return
             vim.api.nvim_create_user_command('TU', 'TypstPreviewUpdate', { desc = 'Update Typst preview' })
         end
     },
+
+    -- Linting (nvim-lint)
+    {
+        "mfussenegger/nvim-lint",
+        config = function()
+            require('lint-config')
+        end,
+    },
+
+    -- nvim-cmp LSP source (loaded on demand by completion-config.lua and lsp-config.lua)
+    "hrsh7th/cmp-nvim-lsp",
 
     -- Snippet engine (kept for DAP/LSP snippet expansion)
     'L3MON4D3/LuaSnip',

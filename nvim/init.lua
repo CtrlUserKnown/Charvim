@@ -9,6 +9,7 @@ vim.api.nvim_set_hl(0, 'CursorLineNr', {
 require('statusline')
 require('options')
 require('keymaps')
+require('theme-switcher')
 require('multicursor').setup()
 
 require('autoclose').setup()
@@ -22,8 +23,13 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup('plugins', {
     change_detection = { enabled = true, notify = false },
+    timeout = 120000,
+    git = {
+        clone_params = { depth = 1 },
+    },
 })
 
+require('lsp-config')
 require('treesitter-config')
 require('completion-config')
 
