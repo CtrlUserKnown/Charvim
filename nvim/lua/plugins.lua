@@ -288,7 +288,6 @@ return
             "nvim-lua/plenary.nvim",
             "stevearc/dressing.nvim",
             "nvim-telescope/telescope.nvim",
-            "hrsh7th/nvim-cmp",
             "nvim-tree/nvim-web-devicons",
             "MunifTanjim/nui.nvim",
             {
@@ -357,8 +356,10 @@ return
         end,
     },
 
-    -- nvim-cmp LSP source (loaded on demand by completion-config.lua and lsp-config.lua)
+    -- nvim-cmp core + sources
+    "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-buffer",
 
     -- Snippet engine (kept for DAP/LSP snippet expansion)
     'L3MON4D3/LuaSnip',
