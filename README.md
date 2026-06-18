@@ -13,20 +13,25 @@ Charvim/
 ├── nvim/
 │   ├── after/
 │   │   └── ftplugin/
-│   │       └── cobol.lua           # COBOL-specific settings
+│   │       ├── cobol.lua           # COBOL-specific settings
+│   │       └── make.lua            # Makefile-specific settings
+│   ├── colors/
+│   │   └── noir-cat.lua            # Custom noir-cat colorscheme
 │   ├── lua/
 │   │   ├── img/
 │   │   │   └── charVim.txt         # ASCII art for the dashboard
 │   │   ├── alpha-config.lua        # Dashboard configuration
 │   │   ├── autoclose.lua           # Auto-closing brackets and quotes
-│   │   ├── completion-config.lua   # Native LSP completion (Neovim 0.12+)
+│   │   ├── completion-config.lua   # nvim-cmp completion config
 │   │   ├── dap-config.lua          # Debugger configuration
 │   │   ├── harpoon-config.lua      # Harpoon keymaps and setup
 │   │   ├── keymaps.lua             # Custom keybindings
+│   │   ├── lint-config.lua         # Linter configuration (nvim-lint)
 │   │   ├── lsp-config.lua          # LSP settings and handlers
 │   │   ├── options.lua             # General Neovim options
 │   │   ├── plugins.lua             # Plugin definitions via lazy.nvim
 │   │   ├── statusline.lua          # Custom mode-aware statusline
+│   │   ├── theme-switcher.lua      # Runtime theme cycling
 │   │   └── treesitter-config.lua   # Treesitter setup
 │   └── init.lua                    # Main entry point
 ├── .github/
@@ -51,24 +56,32 @@ Charvim/
 
 ### LSP & Completion
 
-*   **lsp-config.lua**: LSP setup with specialized handlers for Java (JDTLS), Go (Gopls), Swift (SourceKit), and Typst (Tinymist). Includes inlay hints, diagnostics config, and build system detection for Java projects.
-*   **completion-config.lua**: Native Neovim 0.12 LSP completion. No external completion plugin needed.
+*   **lsp-config.lua**: LSP setup with specialized handlers for Java (JDTLS), Go (Gopls), Swift (SourceKit), and Typst (Tinymist). Includes inlay hints config, diagnostics config, and build system detection for Java projects.
+*   **completion-config.lua**: Autocompletion powered by `nvim-cmp` with `luasnip` snippets, LSP source, and buffer source.
 
-### UI
+### AI
 
-*   **statusline.lua**: Custom statusline with mode-aware highlights using Rosé Pine colors. Shows mode label, filename, modified state, and a save indicator.
+*   **avante.nvim**: Local AI-assisted code completion and chat using Ollama with Qwen 2.5 Coder. Replaces the previous GitHub Copilot integration.
+
+### UI & Themes
+
+*   **statusline.lua**: Custom statusline with mode-aware highlights that dynamically adapt to the active colorscheme.
 *   **alpha-config.lua**: Startup dashboard with ASCII art, quick-access buttons, and a footer showing the date and Neovim version.
+*   **theme-switcher.lua**: Runtime theme cycling between Rosé Pine, Tokyo Night, Catppuccin, Gruvbox, and the custom noir-cat colorscheme.
+*   **noir-cat.lua**: A custom dark colorscheme in `nvim/colors/`.
 
 ### Tools
 
 *   **harpoon-config.lua**: Harpoon2 setup for quick file switching. Navigate with `Alt+1` through `Alt+5`, or cycle with `Alt+N` / `Alt+P`.
 *   **dap-config.lua**: Debug Adapter Protocol setup for Python, Java, C/C++, and Swift. Opens a UI automatically when a session starts.
+*   **lint-config.lua**: Linter configuration via `nvim-lint` with support for multiple linters per filetype.
 *   **treesitter-config.lua**: Treesitter parsers for syntax highlighting, indentation, and incremental selection. Includes auto tag closing for HTML/JSX.
 *   **autoclose.lua**: Auto-closes brackets, quotes, and parentheses in insert and command mode. Also wraps visual selections.
 
 ### Filetype
 
 *   **after/ftplugin/cobol.lua**: COBOL-specific settings — 8-space tabs, column markers at 7 and 73, and absolute line numbers.
+*   **after/ftplugin/make.lua**: Makefile-specific settings.
 
 ## Installation
 
@@ -102,8 +115,8 @@ Plugins will be installed automatically via `lazy.nvim` on first launch.
 - Neovim 0.12+
 - Git
 - A [Nerd Font](https://www.nerdfonts.com/) for icons
-- `node` (for Copilot)
 - `python3` (for DAP Python support)
+- `ollama` with `qwen2.5-coder` (for local AI completion, optional)
 
 ---
 
