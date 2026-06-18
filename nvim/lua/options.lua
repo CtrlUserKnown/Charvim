@@ -6,8 +6,6 @@ vim.opt.timeoutlen = 500
 vim.opt.list = true
 vim.opt.listchars = { tab = '▸ ', trail = '·', extends = '»', precedes = '«', nbsp = '␣', leadmultispace = '│   ', lead = '│'}
 
-vim.opt.showcmd = true
-
 vim.api.nvim_create_user_command('E', 'Telescope file_browser path=%:p:h select_buffer=true hidden=true', {})
 vim.api.nvim_create_user_command('Tree', 'Telescope file_browser path=%:p:h select_buffer=true hidden=true', {})
 
