@@ -176,30 +176,31 @@ vim.api.nvim_create_autocmd('FileType', {
     end,
 })
 
-local function get_jdtls_workspace(root_dir)
-    local project_name = vim.fn.fnamemodify(root_dir, ':p:h:t')
-    return vim.fn.stdpath('cache') .. '/jdtls/' .. project_name
+local function jdtls_workspace(root_dir)
+    local workspace = vim.fn.stdpath('cache') .. '/jdtls'
+    if root_dir then
+        workspace = workspace .. '/' .. vim.fn.fnamemodify(root_dir, ':t')
+    else
+        workspace = workspace .. '/default'
+    end
+    return workspace
 end
 
 vim.lsp.config('jdtls', {
-    cmd = mason_cmd('jdtls'),
+    cmd = function(dispatchers, config)
+        local path = vim.fn.stdpath('data') .. '/mason/bin/jdtls'
+        local exe = vim.fn.executable(path) == 1 and path or 'jdtls'
+        local data_dir = jdtls_workspace(config.root_dir)
+        return vim.lsp.rpc.start({ exe, '-data', data_dir }, dispatchers, {
+            cwd = config.cmd_cwd,
+            env = config.cmd_env,
+            detached = config.detached,
+        })
+    end,
     filetypes = { 'java' },
     root_markers = { 'build.xml', 'pom.xml', 'build.gradle', 'build.gradle.kts', 'settings.gradle', 'settings.gradle.kts', '.git' },
     capabilities = capabilities,
-    on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    end,
-    cmd_env = {
-        JDTLS_WORKSPACE = function()
-            local root = vim.fs.root(0, {
-                'build.xml', 'pom.xml', 'build.gradle', 'build.gradle.kts',
-                'settings.gradle', 'settings.gradle.kts', '.git'
-            })
-            if root then return get_jdtls_workspace(root) end
-            return vim.fn.stdpath('cache') .. '/jdtls/default'
-        end
-    },
+    on_attach = on_attach,
     settings = {
         java = {
             eclipse = { downloadSources = true },
@@ -235,7 +236,6 @@ vim.lsp.config('jdtls', {
             format = {
                 enabled = true,
                 settings = {
-                    url = vim.fn.stdpath("config") .. "/java-format.xml",
                     profile = "GoogleStyle",
                 },
             },
@@ -336,11 +336,10 @@ vim.api.nvim_create_autocmd("FileType", {
                 vim.notify("No Java project detected", vim.log.levels.WARN)
                 return
             end
-            local project_name  = vim.fn.fnamemodify(root, ':p:h:t')
-            local workspace_dir = vim.fn.stdpath('cache') .. '/jdtls/' .. project_name
+            local workspace_dir = jdtls_workspace(root)
             vim.lsp.stop_client(vim.lsp.get_clients({ name = 'jdtls' }))
             vim.fn.system('rm -rf ' .. workspace_dir)
-            vim.notify("Cleaned JDTLS workspace for " .. project_name, vim.log.levels.INFO)
+            vim.notify("Cleaned JDTLS workspace for " .. vim.fn.fnamemodify(root, ':t'), vim.log.levels.INFO)
             vim.notify("Restart Neovim or run :LspStart to reinitialize", vim.log.levels.INFO)
         end, vim.tbl_extend('force', opts, { desc = 'Clean JDTLS workspace cache' }))
     end
