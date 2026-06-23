@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2026-06-23
+
+This release replaces the old inline rename with a full find & replace panel, rewrites the theme switcher with live preview and persistence, and switches avante from local Ollama to Anthropic Claude.
+
+### Added
+- **rename**: New `rename-config.lua` module — a find & replace / rename panel built with `nui.nvim`. Features live ripgrep search, file preview, single-occurrence replace, project-wide regex replace, and LSP rename when available. Bound to `<leader>S` and `:Find`.
+- **options**: Enabled persistent undo (`undofile = true`); undo history now survives restarts.
+- **theme-switcher**: Theme selection now persists across sessions — last-used theme is restored on startup.
+- **theme-switcher**: Telescope-powered live-preview picker; browse themes with cursor movement before confirming. Falls back to `vim.ui.select` when Telescope is unavailable.
+- **theme-switcher**: Added "Auto" theme (Neovim default colorscheme) as the first option.
+- **setup**: Added Fedora detection (`/etc/os-release`) and automatic dependency installation via `dnf`.
+
+### Changed
+- **ai**: Switched `avante.nvim` provider from Ollama (`qwen2.5-coder:3b`) to Anthropic Claude (`claude-haiku-4-5`). Requires `ANTHROPIC_API_KEY` in a `.env` file at the repo root.
+- **ai**: Disabled `auto_suggestions`; changed suggestion accept key from `<S-Tab>` to `<M-CR>`.
+- **keymaps**: Removed old `project_rename` function — superseded by the new `rename-config.lua` module.
+- **keymaps**: `<leader>r` which-key group label updated from "Refactor" to "Run".
+- **lsp**: Removed `c` and `cpp` from `sourcekit-lsp` filetypes — C/C++ is handled by `clangd`.
+- **init**: `.env` file at the repo root is now auto-loaded on startup to inject environment variables (e.g., `ANTHROPIC_API_KEY`).
+
+### Fixed
+- **gitignore**: Added `.env`, `CLAUDE.md`, and `GEMINI.md` to `.gitignore`.
+
 ## [1.5.0] - 2026-06-17
 
 This release introduces local AI code completion, multiple theme support, and integrated linting. GitHub Copilot has been removed in favor of a fully local solution.

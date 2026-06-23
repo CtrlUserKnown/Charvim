@@ -30,8 +30,9 @@ Charvim/
 │   │   ├── lsp-config.lua          # LSP settings and handlers
 │   │   ├── options.lua             # General Neovim options
 │   │   ├── plugins.lua             # Plugin definitions via lazy.nvim
+│   │   ├── rename-config.lua       # Find & replace / rename panel
 │   │   ├── statusline.lua          # Custom mode-aware statusline
-│   │   ├── theme-switcher.lua      # Runtime theme cycling
+│   │   ├── theme-switcher.lua      # Runtime theme cycling with persistence
 │   │   └── treesitter-config.lua   # Treesitter setup
 │   └── init.lua                    # Main entry point
 ├── .github/
@@ -61,17 +62,18 @@ Charvim/
 
 ### AI
 
-*   **avante.nvim**: Local AI-assisted code completion and chat using Ollama with Qwen 2.5 Coder. Replaces the previous GitHub Copilot integration.
+*   **avante.nvim**: AI-assisted code chat and editing powered by Anthropic Claude (claude-haiku-4-5). Use `:AvanteAsk` to chat about code or `:AvanteEdit` to edit with AI assistance.
 
 ### UI & Themes
 
 *   **statusline.lua**: Custom statusline with mode-aware highlights that dynamically adapt to the active colorscheme.
 *   **alpha-config.lua**: Startup dashboard with ASCII art, quick-access buttons, and a footer showing the date and Neovim version.
-*   **theme-switcher.lua**: Runtime theme cycling between Rosé Pine, Tokyo Night, Catppuccin, Gruvbox, and the custom noir-cat colorscheme.
+*   **theme-switcher.lua**: Theme picker with Telescope live-preview — browse themes and see them applied before confirming. The last-used theme is persisted and restored on startup. Cycle with `:ThemeSelect` or switch directly with `:Theme <name>`.
 *   **noir-cat.lua**: A custom dark colorscheme in `nvim/colors/`.
 
 ### Tools
 
+*   **rename-config.lua**: Find & replace / rename panel built with `nui.nvim`. Live ripgrep search with file preview, single-occurrence or project-wide replacement, and automatic LSP rename when the cursor is on a known symbol. Open with `<leader>S` or `:Find`.
 *   **harpoon-config.lua**: Harpoon2 setup for quick file switching. Navigate with `Alt+1` through `Alt+5`, or cycle with `Alt+N` / `Alt+P`.
 *   **dap-config.lua**: Debug Adapter Protocol setup for Python, Java, C/C++, and Swift. Opens a UI automatically when a session starts.
 *   **lint-config.lua**: Linter configuration via `nvim-lint` with support for multiple linters per filetype.
@@ -90,6 +92,8 @@ Run the install script:
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/CrtlUserKnown/Charvim/main/setup.sh)
 ```
+
+On **Fedora** (and Fedora-based distros), the script will automatically install missing dependencies (`neovim`, `git`, `ripgrep`, `fd-find`, `python3`) via `dnf` before setting up the config.
 
 Or manually:
 
@@ -116,7 +120,7 @@ Plugins will be installed automatically via `lazy.nvim` on first launch.
 - Git
 - A [Nerd Font](https://www.nerdfonts.com/) for icons
 - `python3` (for DAP Python support)
-- `ollama` with `qwen2.5-coder` (for local AI completion, optional)
+- `ANTHROPIC_API_KEY` in a `.env` file at the repo root (for avante.nvim AI features)
 
 ---
 
