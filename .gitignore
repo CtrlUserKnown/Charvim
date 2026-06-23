@@ -1,2 +1,10 @@
+# MacOS
 .DS_Store
 **/.DS_Store
+
+# Enviroment
+.env
+
+# AI
+GEMINI.md
+CLAUDE.md
