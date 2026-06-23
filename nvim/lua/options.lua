@@ -50,3 +50,4 @@ vim.opt.inccommand = "split"
 
 -- undo dirfor nvim
 vim.opt.undodir = vim.fn.stdpath("data") .. "/undodir"
+vim.opt.undofile = true
