@@ -163,14 +163,14 @@ vim.lsp.enable('clangd')
 
 vim.lsp.config('sourcekit-lsp', {
     cmd = { 'sourcekit-lsp' },
-    filetypes = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
+    filetypes = { 'swift', 'objective-c', 'objective-cpp' },
     root_markers = { 'Package.swift', 'compile_commands.json', '.git' },
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
 vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'swift', 'c', 'cpp', 'objective-c', 'objective-cpp' },
+    pattern = { 'swift', 'objective-c', 'objective-cpp' },
     callback = function()
         vim.lsp.enable('sourcekit-lsp')
     end,
