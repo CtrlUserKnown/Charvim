@@ -71,12 +71,46 @@ run_step() {
     fi
 }
 
+# 4. Distro detection
+detect_distro() {
+    DISTRO=""
+    if [[ -f /etc/os-release ]]; then
+        source /etc/os-release
+        DISTRO="${ID,,}"
+        DISTRO_LIKE="${ID_LIKE,,}"
+    fi
+}
+
+# 5. Install dependencies for Fedora
+install_deps_fedora() {
+    local pkgs="neovim git ripgrep fd-find python3"
+    local missing=()
+
+    for pkg in $pkgs; do
+        local bin="${pkg/fd-find/fd}"
+        bin="${bin/neovim/nvim}"
+        command -v "$bin" &>/dev/null || missing+=("$pkg")
+    done
+
+    [[ ${#missing[@]} -eq 0 ]] && return
+
+    run_step \
+        "Installing dependencies (${missing[*]})" \
+        "installed: ${missing[*]}" \
+        "sudo dnf install -y ${missing[*]} &>/dev/null"
+}
+
 install_gum
+detect_distro
 
 if [[ -n "$GUM" ]]; then
     clear
     $GUM style --foreground 212 --bold "CharVim Installation"
     echo ""
+fi
+
+if [[ "$DISTRO" == "fedora" ]] || [[ "$DISTRO_LIKE" == *"fedora"* ]]; then
+    install_deps_fedora
 fi
 
 # Step: ~/.config
