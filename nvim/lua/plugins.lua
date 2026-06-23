@@ -207,7 +207,7 @@ return
             local wk = require("which-key")
             wk.setup({ preset = "modern" })
             wk.add({
-                { "<leader>r", group = "Refactor" },
+                { "<leader>r", group = "Run" },
                 { "<leader>w", desc = "Save file" },
                 { "<leader>q", desc = "Save and quit" },
                 { "<leader>Q", desc = "Quit without saving" },
@@ -279,7 +279,7 @@ return
         },
     },
 
-    -- avante.nvim (local AI code completion with Ollama + Qwen 2.5 Coder)
+    -- avante.nvim (AI code chat and editing with Anthropic Claude)
     {
         "yetone/avante.nvim",
         event = "VeryLazy",
@@ -303,24 +303,26 @@ return
         config = function()
             vim.g.plenary_curl_bin_path = "/usr/bin/curl"
             require("avante").setup({
-                provider = "ollama",
+                provider = "claude",
                 providers = {
-                    ollama = {
-                        model = "qwen2.5-coder:3b",
+                    claude = {
+                        endpoint = "https://api.anthropic.com",
+                        model = "claude-haiku-4-5",
+                        timeout = 30000,
+                        extra_request_body = {
+                            max_tokens = 4096,
+                        },
                     },
                 },
-                hints = { enabled = true },
-                suggestion = { enabled = true, debounce = 75, mode = "inline" },
                 mappings = {
                     suggestion = {
-                        accept = "<S-Tab>",
+                        accept = "<M-CR>",
                         next = "<M-]>",
                         dismiss = "<C-]>",
                     },
                 },
                 behaviour = {
-                    auto_suggestions = true,
-                    enable_cursor_planning = false,
+                    auto_suggestions = false,
                 },
             })
         end,

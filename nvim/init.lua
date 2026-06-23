@@ -1,6 +1,16 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+local env_file = vim.fn.stdpath("config") .. "/../.env"
+if vim.fn.filereadable(env_file) == 1 then
+    for line in io.lines(env_file) do
+        local key, value = line:match("^([%w_]+)=(.*)$")
+        if key and value ~= "" then
+            vim.fn.setenv(key, value)
+        end
+    end
+end
+
 vim.api.nvim_set_hl(0, 'CursorLineNr', {
     fg = '#f6c177',
     bold = true
@@ -32,6 +42,7 @@ require('lazy').setup('plugins', {
 require('lsp-config')
 require('treesitter-config')
 require('completion-config')
+require('rename-config')
 
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
@@ -45,7 +56,3 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
-local dap_ok, _ = pcall(require, 'dap')
-if dap_ok then
-    require('dap-config')
-end
