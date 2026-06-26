@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.6.0] - 2026-06-23
+## [1.5.1] - 2026-06-26
 
 This release replaces the old inline rename with a full find & replace panel, rewrites the theme switcher with live preview and persistence, and switches avante from local Ollama to Anthropic Claude.
 
