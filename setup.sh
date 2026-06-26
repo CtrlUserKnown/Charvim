@@ -74,6 +74,11 @@ run_step() {
 # 4. Distro detection
 detect_distro() {
     DISTRO=""
+    DISTRO_LIKE=""
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        DISTRO="macos"
+        return
+    fi
     if [[ -f /etc/os-release ]]; then
         source /etc/os-release
         DISTRO="${ID,,}"
@@ -81,23 +86,70 @@ detect_distro() {
     fi
 }
 
-# 5. Install dependencies for Fedora
-install_deps_fedora() {
-    local pkgs="neovim git ripgrep fd-find python3"
-    local missing=()
+# 5. Install dependencies — one function per package manager
 
-    for pkg in $pkgs; do
-        local bin="${pkg/fd-find/fd}"
-        bin="${bin/neovim/nvim}"
-        command -v "$bin" &>/dev/null || missing+=("$pkg")
+install_deps_macos() {
+    if ! command -v brew &>/dev/null; then
+        echo "Homebrew not found. Install it from https://brew.sh and re-run."
+        exit 1
+    fi
+    local pkgs=(neovim git ripgrep fd python3 make node)
+    local bins=(nvim git rg fd python3 make node)
+    local missing_pkgs=()
+    for i in "${!pkgs[@]}"; do
+        command -v "${bins[$i]}" &>/dev/null || missing_pkgs+=("${pkgs[$i]}")
     done
-
-    [[ ${#missing[@]} -eq 0 ]] && return
-
+    [[ ${#missing_pkgs[@]} -eq 0 ]] && return
     run_step \
-        "Installing dependencies (${missing[*]})" \
-        "installed: ${missing[*]}" \
-        "sudo dnf install -y ${missing[*]} &>/dev/null"
+        "Installing dependencies (${missing_pkgs[*]})" \
+        "installed: ${missing_pkgs[*]}" \
+        "brew install ${missing_pkgs[*]} &>/dev/null"
+}
+
+install_deps_fedora() {
+    local pkgs=(neovim git ripgrep fd-find python3 make nodejs)
+    local bins=(nvim git rg fd python3 make node)
+    local missing_pkgs=()
+    for i in "${!pkgs[@]}"; do
+        command -v "${bins[$i]}" &>/dev/null || missing_pkgs+=("${pkgs[$i]}")
+    done
+    [[ ${#missing_pkgs[@]} -eq 0 ]] && return
+    run_step \
+        "Installing dependencies (${missing_pkgs[*]})" \
+        "installed: ${missing_pkgs[*]}" \
+        "sudo dnf install -y ${missing_pkgs[*]} &>/dev/null"
+}
+
+install_deps_debian() {
+    local pkgs=(neovim git ripgrep fd-find python3 make nodejs)
+    local bins=(nvim git rg fdfind python3 make node)
+    local missing_pkgs=()
+    for i in "${!pkgs[@]}"; do
+        command -v "${bins[$i]}" &>/dev/null || missing_pkgs+=("${pkgs[$i]}")
+    done
+    [[ ${#missing_pkgs[@]} -eq 0 ]] && return
+    run_step \
+        "Updating package lists" \
+        "package lists updated" \
+        "sudo apt-get update -qq &>/dev/null"
+    run_step \
+        "Installing dependencies (${missing_pkgs[*]})" \
+        "installed: ${missing_pkgs[*]}" \
+        "sudo apt-get install -y ${missing_pkgs[*]} &>/dev/null"
+}
+
+install_deps_arch() {
+    local pkgs=(neovim git ripgrep fd python make nodejs)
+    local bins=(nvim git rg fd python3 make node)
+    local missing_pkgs=()
+    for i in "${!pkgs[@]}"; do
+        command -v "${bins[$i]}" &>/dev/null || missing_pkgs+=("${pkgs[$i]}")
+    done
+    [[ ${#missing_pkgs[@]} -eq 0 ]] && return
+    run_step \
+        "Installing dependencies (${missing_pkgs[*]})" \
+        "installed: ${missing_pkgs[*]}" \
+        "sudo pacman -S --noconfirm ${missing_pkgs[*]} &>/dev/null"
 }
 
 install_gum
@@ -109,8 +161,14 @@ if [[ -n "$GUM" ]]; then
     echo ""
 fi
 
-if [[ "$DISTRO" == "fedora" ]] || [[ "$DISTRO_LIKE" == *"fedora"* ]]; then
+if [[ "$DISTRO" == "macos" ]]; then
+    install_deps_macos
+elif [[ "$DISTRO" == "fedora" ]] || [[ "$DISTRO_LIKE" == *"fedora"* ]]; then
     install_deps_fedora
+elif [[ "$DISTRO" == "ubuntu" ]] || [[ "$DISTRO" == "debian" ]] || [[ "$DISTRO_LIKE" == *"debian"* ]]; then
+    install_deps_debian
+elif [[ "$DISTRO" == "arch" ]] || [[ "$DISTRO_LIKE" == *"arch"* ]]; then
+    install_deps_arch
 fi
 
 # Step: ~/.config
