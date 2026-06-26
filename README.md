@@ -57,12 +57,26 @@ Charvim/
 
 ### LSP & Completion
 
-*   **lsp-config.lua**: LSP setup with specialized handlers for Java (JDTLS), Go (Gopls), Swift (SourceKit), and Typst (Tinymist). Includes inlay hints config, diagnostics config, and build system detection for Java projects.
+*   **lsp-config.lua**: LSP setup for ten language servers — all managed through Mason and the native `vim.lsp` API. Includes inlay hints, diagnostics config, and build-system detection for Java and Kotlin projects.
+
+    | Server | Language(s) |
+    |---|---|
+    | `lua_ls` | Lua |
+    | `gopls` | Go |
+    | `pyright` | Python |
+    | `ts_ls` | TypeScript / JavaScript |
+    | `jdtls` | Java (Maven, Gradle, Ant) |
+    | `kotlin_language_server` | Kotlin |
+    | `clangd` | C / C++ / Objective-C |
+    | `sourcekit-lsp` | Swift / Objective-C |
+    | `tinymist` | Typst |
+    | `lemminx` | XML |
+
 *   **completion-config.lua**: Autocompletion powered by `nvim-cmp` with `luasnip` snippets, LSP source, and buffer source.
 
 ### AI
 
-*   **avante.nvim**: AI-assisted code chat and editing powered by Anthropic Claude (claude-haiku-4-5). Use `:AvanteAsk` to chat about code or `:AvanteEdit` to edit with AI assistance.
+*   **avante.nvim**: AI-assisted code chat and editing powered by Anthropic Claude (`claude-haiku-4-5`). Use `:AvanteAsk` to chat about code or `:AvanteEdit` to edit with AI assistance. Requires `ANTHROPIC_API_KEY` set in your environment or a `.env` file at the repo root.
 
 ### UI & Themes
 
@@ -74,9 +88,20 @@ Charvim/
 ### Tools
 
 *   **rename-config.lua**: Find & replace / rename panel built with `nui.nvim`. Live ripgrep search with file preview, single-occurrence or project-wide replacement, and automatic LSP rename when the cursor is on a known symbol. Open with `<leader>S` or `:Find`.
+*   **multicursor.lua**: Homebrew multi-cursor implementation (no plugin dependency). Add cursors above/below with `Ctrl+Up` / `Ctrl+Down`, or enter multi-cursor mode with `Ctrl+N` and then navigate with `j`/`k`. Exit with `Esc`.
 *   **harpoon-config.lua**: Harpoon2 setup for quick file switching. Navigate with `Alt+1` through `Alt+5`, or cycle with `Alt+N` / `Alt+P`.
-*   **dap-config.lua**: Debug Adapter Protocol setup for Python, Java, C/C++, and Swift. Opens a UI automatically when a session starts.
-*   **lint-config.lua**: Linter configuration via `nvim-lint` with support for multiple linters per filetype.
+*   **dap-config.lua**: Debug Adapter Protocol setup for Python, Java, C/C++, and Kotlin. Opens a UI automatically when a session starts.
+*   **lint-config.lua**: Linter configuration via `nvim-lint`. Linters are installed via Mason.
+
+    | Filetype | Linter |
+    |---|---|
+    | Lua | `luacheck` |
+    | Go | `staticcheck` |
+    | Python | `ruff` |
+    | JavaScript / TypeScript | `eslint_d` |
+    | Java | `checkstyle` |
+    | Kotlin | `ktlint` |
+
 *   **treesitter-config.lua**: Treesitter parsers for syntax highlighting, indentation, and incremental selection. Includes auto tag closing for HTML/JSX.
 *   **autoclose.lua**: Auto-closes brackets, quotes, and parentheses in insert and command mode. Also wraps visual selections.
 
@@ -93,7 +118,14 @@ Run the install script:
 bash <(curl -s https://raw.githubusercontent.com/CrtlUserKnown/Charvim/main/setup.sh)
 ```
 
-On **Fedora** (and Fedora-based distros), the script will automatically install missing dependencies (`neovim`, `git`, `ripgrep`, `fd-find`, `python3`) via `dnf` before setting up the config.
+The script automatically installs missing system dependencies before setting up the config. Supported package managers:
+
+| OS / Distro | Package manager |
+|---|---|
+| macOS | `brew` |
+| Fedora / RHEL | `dnf` |
+| Debian / Ubuntu | `apt` |
+| Arch Linux | `pacman` |
 
 Or manually:
 
@@ -119,8 +151,12 @@ Plugins will be installed automatically via `lazy.nvim` on first launch.
 - Neovim 0.12+
 - Git
 - A [Nerd Font](https://www.nerdfonts.com/) for icons
-- `python3` (for DAP Python support)
-- `ANTHROPIC_API_KEY` in a `.env` file at the repo root (for avante.nvim AI features)
+- `ripgrep` — used by Telescope live grep and `rename-config`
+- `fd` — used by Telescope file finder
+- `python3` — for DAP Python support
+- `make` — required to build `avante.nvim`
+- `node` — required by Mason-managed LSP servers (TypeScript, etc.)
+- `ANTHROPIC_API_KEY` — set in your environment or a `.env` file at the repo root (for avante.nvim AI features)
 
 ---
 
