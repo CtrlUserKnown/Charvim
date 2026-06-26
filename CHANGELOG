@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.2] - 2026-06-26
+
+This release rewrites the setup script to support macOS (Homebrew), Debian/Ubuntu (apt), and Arch Linux (pacman) in addition to Fedora, and overhauls the README with detailed LSP and linter tables.
+
+### Added
+- **setup**: macOS support via `brew` for dependency installation.
+- **setup**: Debian / Ubuntu support via `apt`.
+- **setup**: Arch Linux support via `pacman`.
+- **setup**: Each distro function checks for missing binaries before installing, keeping installs minimal.
+
+### Changed
+- **setup**: Refactored from a single Fedora-only function to a per-package-manager design (`install_deps_macos`, `install_deps_fedora`, `install_deps_debian`, `install_deps_arch`).
+- **setup**: Expanded dependency list to include `make` and `node` (required by avante.nvim and Mason-managed LSP servers).
+- **docs**: README now includes LSP server and linter tables for quick reference.
+- **docs**: README updated with per-distro package manager table and expanded prerequisites.
+
 ## [1.5.1] - 2026-06-26
 
 This release replaces the old inline rename with a full find & replace panel, rewrites the theme switcher with live preview and persistence, and switches avante from local Ollama to Anthropic Claude.
