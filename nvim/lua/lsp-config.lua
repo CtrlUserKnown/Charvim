@@ -244,6 +244,66 @@ vim.lsp.config('jdtls', {
 })
 vim.lsp.enable('jdtls')
 
+vim.lsp.config('kotlin_language_server', {
+    cmd = mason_cmd('kotlin-language-server'),
+    filetypes = { 'kotlin' },
+    root_markers = { 'settings.gradle', 'settings.gradle.kts', 'build.gradle', 'build.gradle.kts', 'pom.xml', '.git' },
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+        kotlin = {
+            compiler = { jvm = { target = "17" } },
+            inlayHints = {
+                typeHints = { enable = true },
+                parameterHints = { enable = true },
+            },
+        },
+    },
+})
+vim.lsp.enable('kotlin_language_server')
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "kotlin",
+    callback = function(args)
+        local bufnr = args.buf
+        local opts = { buffer = bufnr, noremap = true, silent = true }
+
+        local function run_build_cmd(cmd)
+            if cmd then vim.cmd('split | terminal ' .. cmd) end
+        end
+
+        local function get_kotlin_cmd(gradle_cmd, maven_cmd)
+            local root = vim.fs.root(0, {
+                'settings.gradle', 'settings.gradle.kts', 'build.gradle', 'build.gradle.kts', 'pom.xml',
+            })
+            if not root then
+                vim.notify("No Kotlin project root detected", vim.log.levels.WARN)
+                return nil
+            end
+            if vim.fn.filereadable(root .. '/pom.xml') == 1 then
+                return 'cd ' .. root .. ' && ' .. maven_cmd
+            end
+            return 'cd ' .. root .. ' && ' .. gradle_cmd
+        end
+
+        vim.keymap.set('n', '<leader>kb', function()
+            run_build_cmd(get_kotlin_cmd('./gradlew build', 'mvn compile'))
+        end, vim.tbl_extend('force', opts, { desc = 'Build Kotlin project' }))
+
+        vim.keymap.set('n', '<leader>kt', function()
+            run_build_cmd(get_kotlin_cmd('./gradlew test', 'mvn test'))
+        end, vim.tbl_extend('force', opts, { desc = 'Run Kotlin tests' }))
+
+        vim.keymap.set('n', '<leader>kc', function()
+            run_build_cmd(get_kotlin_cmd('./gradlew clean', 'mvn clean'))
+        end, vim.tbl_extend('force', opts, { desc = 'Clean Kotlin project' }))
+
+        vim.keymap.set('n', '<leader>kr', function()
+            run_build_cmd(get_kotlin_cmd('./gradlew run', 'mvn exec:java'))
+        end, vim.tbl_extend('force', opts, { desc = 'Run Kotlin project' }))
+    end,
+})
+
 vim.lsp.config('pyright', {
     cmd = mason_cmd('pyright'),
     filetypes = { 'python' },

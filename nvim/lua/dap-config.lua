@@ -92,6 +92,32 @@ dap.configurations.swift = {
     },
 }
 
+-- kotlin
+dap.adapters.kotlin = {
+    type = 'executable',
+    command = vim.fn.stdpath('data') .. '/mason/bin/kotlin-debug-adapter',
+    args = {},
+}
+
+dap.configurations.kotlin = {
+    {
+        type = 'kotlin',
+        request = 'launch',
+        name = 'Launch Kotlin',
+        mainClass = function()
+            return vim.fn.input('Main class (e.g. com.example.MainKt): ')
+        end,
+        projectRoot = '${workspaceFolder}',
+    },
+    {
+        type = 'kotlin',
+        request = 'attach',
+        name = 'Attach to Kotlin',
+        port = 5005,
+        projectRoot = '${workspaceFolder}',
+    },
+}
+
 -- keymaps
 local map = vim.keymap.set
 map('n', '<leader>db', dap.toggle_breakpoint,                                               { desc = 'Toggle breakpoint' })

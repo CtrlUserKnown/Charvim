@@ -10,7 +10,7 @@ ts.setup({
         "c", "lua", "vim", "vimdoc", "query",
         "javascript", "typescript", "python", "rust", "go",
         "html", "css", "json", "markdown", "bash", "yaml", "toml",
-        "xml"
+        "xml", "kotlin"
     },
 
     sync_install = false,
