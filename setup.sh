@@ -6,7 +6,7 @@
 
 REPO_URL="https://github.com/CrtlUserKnown/Charvim.git"
 CONFIG_DIR="$HOME/.config"
-CHARVIM_DIR="$CONFIG_DIR/charvim"
+CHARVIM_DIR="$HOME/.charvim"
 GUM_TEMP_PATH="/tmp/gum"
 
 # Variables for rollback

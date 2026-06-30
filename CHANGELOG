@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.4] - 2026-06-30
+
+This release moves the Charvim installation directory from `~/.config/charvim` to `~/.charvim` to avoid conflicts with other Neovim configurations.
+
+### Changed
+- **setup**: Charvim now installs to `~/.charvim` instead of `~/.config/charvim`, preventing conflicts with other configs using the standard `~/.config/nvim` path.
+
 ## [1.5.3] - 2026-06-29
 
 This release introduces a revamped dashboard with a grid button layout and live version display, new quality-of-life features (save popup, update checker, uninstall manager), and a major CI overhaul with automated smoke tests and AI-powered error reporting.

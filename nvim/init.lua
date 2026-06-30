@@ -1,6 +1,6 @@
 -- CharVim — Neovim Configuration
 -- Author: CrtlUserKnown
--- Version: 1.5.3
+-- Version: 1.5.4
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
