@@ -57,9 +57,10 @@ end
 
 local function filter_diagnostics(diagnostics)
     return vim.tbl_filter(function(diagnostic)
-        if diagnostic.message:match("sentence is %d+ words long") then return false end
-        if diagnostic.message:match("paragraph is %d+ words long") then return false end
-        if diagnostic.message:match("This sentence") then return false end
+        local msg = diagnostic.message or ''
+        if msg:match("sentence is %d+ words long") then return false end
+        if msg:match("paragraph is %d+ words long") then return false end
+        if msg:match("This sentence") then return false end
         return true
     end, diagnostics)
 end

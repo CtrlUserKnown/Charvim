@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.3] - 2026-06-29
+
+This release introduces a revamped dashboard with a grid button layout and live version display, new quality-of-life features (save popup, update checker, uninstall manager), and a major CI overhaul with automated smoke tests and AI-powered error reporting.
+
+### Added
+- **dashboard**: Rewritten alpha dashboard with a two-column button grid, hotkey navigation, and a "Docs" button that opens the wiki.
+- **dashboard**: Footer now displays CharVim version (parsed from CHANGELOG) alongside the Neovim version.
+- **save-popup**: New `<leader>W` save popup with Save, Save As, Format & Save, and Save All options (Telescope-powered).
+- **update-checker**: Background version check against GitHub releases; prompts with an interactive Telescope popup when a new version is available.
+- **uninstall**: New `:CharvimUninstall` command with options to reinstall, normal uninstall (config only), or complete uninstall (config + plugins + repo).
+- **user-customization**: Support for git-ignored `user.lua` and `user-plugins.lua` templates auto-created on first run, allowing personal overrides without conflicts.
+- **ci**: Headless smoke test verifying init.lua loads without errors.
+- **ci**: Module export validation (checks required public API functions exist).
+- **ci**: AI-powered error reporting with Gemma 3 (1B) — generates structured GitHub issues on failure.
+
+### Changed
+- **ci**: Neovim installation switched from PPA to official AppImage for reproducibility.
+- **ci**: Workflow now has `issues: write` permission for automatic issue creation on failure.
+- **dashboard**: Replaced inline button definitions with a configurable grid system and per-item keymaps registered on `AlphaReady`.
+- **lsp**: `filter_diagnostics` now safely handles `nil` diagnostic messages.
+
+### Fixed
+- **lsp**: Fixed nil error when `diagnostic.message` is `nil`.
+
 ## [1.5.2] - 2026-06-26
 
 This release rewrites the setup script to support macOS (Homebrew), Debian/Ubuntu (apt), and Arch Linux (pacman) in addition to Fedora, and overhauls the README with detailed LSP and linter tables.

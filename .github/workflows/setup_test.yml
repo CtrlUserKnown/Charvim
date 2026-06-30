@@ -1,83 +1,195 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Test setup.sh
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+env:
+  ERROR_LOG: /tmp/charvim_setup_errors.log
 
 jobs:
   test-setup:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y git curl jq 2>/dev/null
 
       - name: Make setup.sh executable
         run: chmod +x setup.sh
 
+      # ── Test 1: fresh install ──────────────────────────────────────────────
       - name: Test fresh installation
         run: |
-          ./setup.sh
-          if [ -L "$HOME/.config/nvim" ]; then
-            echo "Symlink created successfully"
-            TARGET=$(readlink "$HOME/.config/nvim")
-            echo "Symlink points to: $TARGET"
-            if [[ "$TARGET" == "$(pwd)/nvim" ]]; then
-              echo "Symlink target is correct"
-            else
-              echo "Symlink target is incorrect. Expected $(pwd)/nvim, got $TARGET"
-              exit 1
-            fi
-          else
-            echo "Symlink not created"
+          OUTPUT=$(./setup.sh 2>&1)
+          echo "$OUTPUT"
+
+          if [ ! -L "$HOME/.config/nvim" ]; then
+            printf "\n=== Fresh install FAILED: symlink not created ===\n%s\n" "$OUTPUT" >> "$ERROR_LOG"
             exit 1
           fi
 
-          if [ -d "$HOME/.config/nvim" ]; then
-             echo "Nvim config directory exists via symlink"
-          else
-             echo "Nvim config directory does not exist"
-             exit 1
+          TARGET=$(readlink "$HOME/.config/nvim")
+          EXPECTED="$(pwd)/nvim"
+          echo "Symlink: $TARGET"
+
+          if [ "$TARGET" != "$EXPECTED" ]; then
+            printf "\n=== Fresh install FAILED: wrong symlink target ===\nExpected: %s\nGot: %s\n" \
+              "$EXPECTED" "$TARGET" >> "$ERROR_LOG"
+            exit 1
           fi
 
+          [ -d "$HOME/.config/nvim" ] || {
+            echo "ERROR: config dir not accessible via symlink" | tee -a "$ERROR_LOG"
+            exit 1
+          }
+
+          echo "Fresh install OK"
+
+      # ── Test 2: backup of existing config ─────────────────────────────────
       - name: Test backup of existing config
         run: |
-          # Clean up previous install and backups for a clean test state
           rm -f "$HOME/.config/nvim"
           rm -rf "$HOME/.config/nvim.bak."*
-          
-          # Create a dummy config
+
           mkdir -p "$HOME/.config/nvim"
-          touch "$HOME/.config/nvim/init.lua"
           echo "old config" > "$HOME/.config/nvim/init.lua"
-          
-          # Run setup
-          ./setup.sh
-          
-          # Check if backup exists
-          BACKUP=$(ls -d "$HOME/.config"/nvim.bak.* | head -n 1)
-          if [ -n "$BACKUP" ]; then
-            echo "Backup created at $BACKUP"
-            if [ -f "$BACKUP/init.lua" ] && [ "$(cat $BACKUP/init.lua)" == "old config" ]; then
-              echo "Backup content is correct"
-            else
-              echo "Backup content is missing or incorrect"
-              exit 1
-            fi
-          else
-            echo "Backup was not created"
+
+          ./setup.sh 2>&1
+
+          BACKUP=$(ls -d "$HOME/.config"/nvim.bak.* 2>/dev/null | head -1)
+          if [ -z "$BACKUP" ]; then
+            echo "ERROR: backup not created" | tee -a "$ERROR_LOG"
             exit 1
           fi
 
-          
-          # Check if symlink is restored
-          if [ -L "$HOME/.config/nvim" ]; then
-            echo "Symlink recreated successfully"
-          else
-            echo "Symlink not recreated"
+          CONTENT=$(cat "$BACKUP/init.lua" 2>/dev/null)
+          if [ "$CONTENT" != "old config" ]; then
+            printf "ERROR: backup content wrong. Got: %s\n" "$CONTENT" | tee -a "$ERROR_LOG"
             exit 1
           fi
 
+          if [ ! -L "$HOME/.config/nvim" ]; then
+            echo "ERROR: symlink not recreated after backup" | tee -a "$ERROR_LOG"
+            exit 1
+          fi
+
+          echo "Backup test OK"
+
+      # ── Test 3: idempotent re-run ──────────────────────────────────────────
+      - name: Test idempotent re-run
+        run: |
+          ./setup.sh 2>&1
+          if [ ! -L "$HOME/.config/nvim" ]; then
+            echo "ERROR: symlink missing after re-run" | tee -a "$ERROR_LOG"
+            exit 1
+          fi
+          echo "Re-run OK"
+
+      # ── AI error reporting ─────────────────────────────────────────────────
+      - name: Install Ollama
+        if: failure()
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          ollama serve &>/dev/null &
+          echo "Waiting for Ollama..."
+          for i in $(seq 1 20); do
+            curl -sf http://localhost:11434/ && break || sleep 2
+          done
+
+      - name: Pull Gemma model
+        if: failure()
+        run: ollama pull gemma3:1b
+
+      - name: Generate error report with Gemma
+        if: failure()
+        id: ai_report
+        run: |
+          ERROR_CONTENT=$(cat "$ERROR_LOG" 2>/dev/null | tail -200 || echo "No error log captured")
+
+          PROMPT="You are a CI assistant for the CharVim Neovim configuration project. \
+          Analyze this setup.sh test failure and produce a structured GitHub issue report. \
+          Include: 1) A short title (max 80 chars, no markdown), 2) What step failed and why, \
+          3) The most likely root cause, 4) Steps to fix it. Use Markdown.\n\n\
+          Repository: CharVim (Neovim config), Workflow: Test setup.sh\n\
+          Error output:\n\`\`\`\n${ERROR_CONTENT}\n\`\`\`"
+
+          RESPONSE=$(curl -s --max-time 180 http://localhost:11434/api/generate \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg model "gemma3:1b" \
+              --arg prompt "$PROMPT" \
+              '{model: $model, prompt: $prompt, stream: false}')" \
+            | jq -r '.response // "AI analysis unavailable — see raw output below."')
+
+          TITLE=$(echo "$RESPONSE" | grep -m1 -v '^[[:space:]]*$' \
+            | sed 's/^[#*[:space:]]*//' | cut -c1-80)
+          [ -z "$TITLE" ] && TITLE="setup.sh test failure on $(date +%Y-%m-%d)"
+
+          echo "issue_title=$TITLE" >> "$GITHUB_OUTPUT"
+
+          cat > /tmp/issue_body.md << 'BODYEOF'
+          ## CI Failure — Test setup.sh
+          BODYEOF
+
+          cat >> /tmp/issue_body.md << BODYEOF
+
+          | | |
+          |---|---|
+          | **Workflow** | \`${{ github.workflow }}\` |
+          | **Run** | [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
+          | **Commit** | \`${{ github.sha }}\` |
+          | **Branch** | \`${{ github.ref_name }}\` |
+          | **Triggered by** | ${{ github.actor }} |
+
+          ---
+
+          ## Gemma Analysis
+
+          ${RESPONSE}
+
+          ---
+
+          <details>
+          <summary>Raw CI error output</summary>
+
+          \`\`\`
+          $(cat "$ERROR_LOG" 2>/dev/null | tail -200 || echo "No log captured")
+          \`\`\`
+
+          </details>
+          BODYEOF
+
+      - name: Create GitHub issue
+        if: failure() && github.event_name != 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            let body;
+            try {
+              body = fs.readFileSync('/tmp/issue_body.md', 'utf8');
+            } catch {
+              body = 'setup.sh test failed. See run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            }
+
+            const title = 'CI: ${{ steps.ai_report.outputs.issue_title }}' || 'CI: setup.sh test failure';
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              title: title.substring(0, 256),
+              body:  body,
+              labels: ['bug', 'ci'],
+            });
+            console.log('Issue created.');

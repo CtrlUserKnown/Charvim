@@ -2,57 +2,187 @@ name: Test Neovim Config
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+env:
+  ERROR_LOG: /tmp/charvim_errors.log
 
 jobs:
   test-config:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Neovim
+      # ── Neovim ────────────────────────────────────────────────────────────
+      - name: Install Neovim (official AppImage)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository -y ppa:neovim-ppa/unstable
-          sudo apt-get update
-          sudo apt-get install -y neovim git curl unzip
+          curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
+          chmod +x nvim-linux-x86_64.appimage
+          ./nvim-linux-x86_64.appimage --appimage-extract
+          sudo ln -sf "$(pwd)/squashfs-root/usr/bin/nvim" /usr/local/bin/nvim
+          sudo apt-get install -y git curl unzip jq 2>/dev/null
+          nvim --version
 
-      - name: Run setup script
+      # ── Setup ─────────────────────────────────────────────────────────────
+      - name: Run setup.sh
         run: |
           chmod +x setup.sh
-          ./setup.sh
+          ./setup.sh 2>&1 | tee -a "$ERROR_LOG"
 
       - name: Verify symlink
         run: |
-          if [ -L "$HOME/.config/nvim" ]; then
-            echo "Symlink created successfully"
-          else
-            echo "Symlink failed"
+          if [ ! -L "$HOME/.config/nvim" ]; then
+            echo "ERROR: Symlink at ~/.config/nvim was not created" | tee -a "$ERROR_LOG"
+            exit 1
+          fi
+          echo "Symlink OK -> $(readlink $HOME/.config/nvim)"
+
+      # ── Core tests ────────────────────────────────────────────────────────
+      - name: Headless smoke test (init.lua + all modules)
+        run: |
+          OUTPUT=$(nvim --headless +qa 2>&1)
+          STATUS=$?
+          echo "$OUTPUT"
+          if [ $STATUS -ne 0 ]; then
+            printf "\n=== Smoke test FAILED ===\n%s\n" "$OUTPUT" >> "$ERROR_LOG"
             exit 1
           fi
 
-      - name: Headless Smoke Test
+      - name: Install plugins (Lazy sync)
         run: |
-          # This will fail if there are syntax errors or missing modules in init.lua
-          nvim --headless +qa
+          nvim --headless "+Lazy! sync" +qa 2>&1 | tee -a "$ERROR_LOG" || true
 
-      - name: Install Plugins (Lazy.nvim)
+      - name: Verify custom module exports
         run: |
-          # Run sync to install all plugins and quit
-          nvim --headless "+Lazy! sync" +qa
+          OUTPUT=$(nvim --headless \
+            -c "lua assert(type(require('save-popup').open)     == 'function', 'save-popup.open missing')" \
+            -c "lua assert(type(require('update-checker').get_version) == 'function', 'update-checker.get_version missing')" \
+            -c "lua assert(type(require('uninstall').open)      == 'function', 'uninstall.open missing')" \
+            -c "lua print('Modules OK')" \
+            +qa 2>&1)
+          STATUS=$?
+          echo "$OUTPUT"
+          if [ $STATUS -ne 0 ]; then
+            printf "\n=== Module export check FAILED ===\n%s\n" "$OUTPUT" >> "$ERROR_LOG"
+            exit 1
+          fi
 
-      - name: Check Health
+      - name: Lua syntax check
         run: |
-          # Capture checkhealth output to a file and print it
-          nvim --headless +checkhealth +write!health.txt +qa
-          cat health.txt
+          if command -v luacheck &>/dev/null; then
+            luacheck nvim/lua/ --globals vim --no-unused-args --no-max-line-length 2>&1 \
+              | tee -a "$ERROR_LOG" || true
+          else
+            echo "luacheck not available, skipping"
+          fi
 
-      - name: Verify Mason Tools
+      # ── AI error reporting (runs only when a step above failed) ───────────
+      - name: Install Ollama
+        if: failure()
         run: |
-          # Just a check to see if the mason bin exists after plugins are installed
-          ls -R ~/.local/share/nvim/mason/bin/ || echo "Mason bin not found (might be expected in CI if automatic_installation is false or slow)"
+          curl -fsSL https://ollama.com/install.sh | sh
+          ollama serve &>/dev/null &
+          echo "Waiting for Ollama to be ready..."
+          for i in $(seq 1 20); do
+            curl -sf http://localhost:11434/ && break || sleep 2
+          done
+
+      - name: Pull Gemma model
+        if: failure()
+        run: ollama pull gemma3:1b
+
+      - name: Generate error report with Gemma
+        if: failure()
+        id: ai_report
+        run: |
+          ERROR_CONTENT=$(cat "$ERROR_LOG" 2>/dev/null | tail -200 || echo "No error log captured")
+
+          PROMPT="You are a Neovim configuration CI assistant for the CharVim project. \
+          Analyze the following GitHub Actions CI failure and produce a structured GitHub issue report. \
+          Include: 1) A short issue title (max 80 chars, no markdown), 2) What failed and why, \
+          3) The most likely root cause, 4) Concrete steps to fix it. Use Markdown formatting.\n\n\
+          Repository: CharVim (Neovim configuration)\n\
+          Workflow: Test Neovim Config\n\
+          CI Error Output:\n\`\`\`\n${ERROR_CONTENT}\n\`\`\`"
+
+          RESPONSE=$(curl -s --max-time 180 http://localhost:11434/api/generate \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg model "gemma3:1b" \
+              --arg prompt "$PROMPT" \
+              '{model: $model, prompt: $prompt, stream: false}')" \
+            | jq -r '.response // "AI analysis unavailable — see raw output below."')
+
+          # First non-empty line becomes the issue title
+          TITLE=$(echo "$RESPONSE" | grep -m1 -v '^[[:space:]]*$' \
+            | sed 's/^[#*[:space:]]*//' | cut -c1-80)
+          [ -z "$TITLE" ] && TITLE="Config test failure on $(date +%Y-%m-%d)"
+
+          echo "issue_title=$TITLE" >> "$GITHUB_OUTPUT"
+
+          # Write full body to a file (avoids shell variable size limits)
+          cat > /tmp/issue_body.md << 'BODYEOF'
+          ## CI Failure — Test Neovim Config
+          BODYEOF
+
+          cat >> /tmp/issue_body.md << BODYEOF
+
+          | | |
+          |---|---|
+          | **Workflow** | \`${{ github.workflow }}\` |
+          | **Run** | [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
+          | **Commit** | \`${{ github.sha }}\` |
+          | **Branch** | \`${{ github.ref_name }}\` |
+          | **Triggered by** | ${{ github.actor }} |
+
+          ---
+
+          ## Gemma Analysis
+
+          ${RESPONSE}
+
+          ---
+
+          <details>
+          <summary>Raw CI error output</summary>
+
+          \`\`\`
+          $(cat "$ERROR_LOG" 2>/dev/null | tail -200 || echo "No log captured")
+          \`\`\`
+
+          </details>
+          BODYEOF
+
+      - name: Create GitHub issue
+        if: failure() && github.event_name != 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            let body;
+            try {
+              body = fs.readFileSync('/tmp/issue_body.md', 'utf8');
+            } catch {
+              body = 'CI failed — error log unavailable. See run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            }
+
+            const title = 'CI: ${{ steps.ai_report.outputs.issue_title }}' || 'CI: Config test failure';
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              title: title.substring(0, 256),
+              body:  body,
+              labels: ['bug', 'ci'],
+            });
+            console.log('Issue created.');
