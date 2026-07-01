@@ -161,3 +161,4 @@ Plugins will be installed automatically via `lazy.nvim` on first launch.
 ---
 
 Built by [CrtlUserKnown](https://github.com/CrtlUserKnown)
+

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="knew-pines">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CharVim: Neovim, crafted for flow.</title>
+  <meta name="description" content="CharVim is a custom Neovim configuration built for speed, flow, and a seamless development experience. Managed by lazy.nvim on Neovim 0.12+." />
+  <meta name="author" content="CrtlUserKnown" />
+  <meta name="theme-color" content="#191724" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta property="og:title" content="CharVim: Neovim, crafted for flow." />
+  <meta property="og:description" content="A custom Neovim configuration built for speed and flow. Three themes, AI assistance, full LSP, DAP, and more." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ctrluserknown.github.io/Charvim/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="CharVim: Neovim, crafted for flow." />
+  <meta name="twitter:description" content="A custom Neovim configuration built for speed and flow." />
+  <link rel="canonical" href="https://ctrluserknown.github.io/Charvim/" />
+  <link rel="icon" href="img/favicon/charvim.svg" type="image/svg+xml" />
+  <link rel="alternate icon" href="img/favicon/charvim-atl.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="img/favicon/charvim.svg" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "CharVim",
+        "url": "https://ctrluserknown.github.io/Charvim/",
+        "description": "CharVim is a custom Neovim configuration built for speed, flow, and a seamless development experience."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "CharVim",
+        "description": "A custom Neovim configuration designed for efficiency, speed, and a seamless development experience. Managed by lazy.nvim on Neovim 0.12+.",
+        "url": "https://ctrluserknown.github.io/Charvim/",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "macOS, Linux",
+        "softwareVersion": "1.5.2",
+        "dateModified": "2026-06-26",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "CrtlUserKnown",
+          "url": "https://github.com/CrtlUserKnown"
+        },
+        "codeRepository": "https://github.com/CrtlUserKnown/Charvim",
+        "programmingLanguage": "Lua",
+        "license": "https://github.com/CrtlUserKnown/Charvim/blob/main/LICENSE",
+        "featureList": [
+          "10+ LSP servers pre-configured",
+          "AI assistance via Anthropic Claude",
+          "Debug Adapter Protocol for Python, Java, C/C++, Swift, Kotlin",
+          "Three runtime-switchable color themes",
+          "Custom Find and Replace panel with live preview",
+          "Multi-cursor support",
+          "Cross-platform install script"
+        ]
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Home",
+        "url": "https://ctrluserknown.github.io/Charvim/"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "About",
+        "url": "https://ctrluserknown.github.io/Charvim/about.html"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Documentation",
+        "url": "https://ctrluserknown.github.io/Charvim/docs.html"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Roadmap",
+        "url": "https://ctrluserknown.github.io/Charvim/roadmap.html"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "name": "Changelog",
+        "url": "https://ctrluserknown.github.io/Charvim/changelog.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<div class="cursor-gradient" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html">
+    <svg class="nav-brand-logo" viewBox="0 0 317 319" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" aria-hidden="true">
+      <g transform="matrix(1,0,0,1,-35.917861,-42.367234)">
+        <g>
+          <g transform="matrix(2.631266,0,0,2.600643,-317.140351,-356.595763)">
+            <path class="logo-primary" d="M140.378,275.999L143.656,174.845C143.774,172.66 143.833,171.302 143.833,170.77C143.833,165.751 140.615,163.241 134.178,163.241L137.19,153.409L188.298,153.409L185.287,163.241C179.913,163.241 176.4,164.039 174.746,165.633C173.093,167.227 172.148,171.184 171.912,177.502L169.609,243.935L213.277,181.222C216.348,176.735 217.883,173.191 217.883,170.593C217.883,168.645 216.894,166.932 214.916,165.456C212.937,163.98 210.265,163.241 206.899,163.241L204.685,163.241L207.697,153.409L254.465,153.409L251.542,163.241C246.286,163.359 241.71,164.865 237.813,167.759C233.915,170.652 228.63,176.794 221.957,186.183L158.714,275.999L140.378,275.999Z" style="fill-rule:nonzero;"/>
+          </g>
+          <g transform="matrix(1.740079,0,-0.240372,1.199533,-137.411133,-14.95078)">
+            <path class="logo-accent" d="M258.867,210.424C270.725,224.031 288.197,251.204 288.197,284.102C288.197,301.873 276.466,313.564 262.016,313.564C247.567,313.564 235.836,300.365 235.836,284.102C235.836,251.368 258.544,249.732 258.867,210.424Z"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <span class="nav-brand-name">CharVim</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="docs.html">Docs</a></li>
+    <li><a href="roadmap.html">Roadmap</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+    <li><a href="https://github.com/CrtlUserKnown/Charvim" target="_blank" rel="noopener">GitHub ↗</a></li>
+  </ul>
+
+  <div class="theme-switcher" role="group" aria-label="Select color theme">
+    <button class="theme-btn" data-theme="knew-pines" title="Knew-pines theme">knew-pines</button>
+    <button class="theme-btn" data-theme="noir-cat"   title="Noir-cat theme">noir-cat</button>
+    <button class="theme-btn" data-theme="dark"       title="Dark theme">dark</button>
+  </div>
+
+  <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero-logo-wrap">
+      <svg class="hero-logo" viewBox="0 0 317 319" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" role="img" aria-label="CharVim logo">
+        <g transform="matrix(1,0,0,1,-35.917861,-42.367234)">
+          <g>
+            <g transform="matrix(2.631266,0,0,2.600643,-317.140351,-356.595763)">
+              <path class="logo-primary" d="M140.378,275.999L143.656,174.845C143.774,172.66 143.833,171.302 143.833,170.77C143.833,165.751 140.615,163.241 134.178,163.241L137.19,153.409L188.298,153.409L185.287,163.241C179.913,163.241 176.4,164.039 174.746,165.633C173.093,167.227 172.148,171.184 171.912,177.502L169.609,243.935L213.277,181.222C216.348,176.735 217.883,173.191 217.883,170.593C217.883,168.645 216.894,166.932 214.916,165.456C212.937,163.98 210.265,163.241 206.899,163.241L204.685,163.241L207.697,153.409L254.465,153.409L251.542,163.241C246.286,163.359 241.71,164.865 237.813,167.759C233.915,170.652 228.63,176.794 221.957,186.183L158.714,275.999L140.378,275.999Z" style="fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1.740079,0,-0.240372,1.199533,-137.411133,-14.95078)">
+              <path class="logo-accent" d="M258.867,210.424C270.725,224.031 288.197,251.204 288.197,284.102C288.197,301.873 276.466,313.564 262.016,313.564C247.567,313.564 235.836,300.365 235.836,284.102C235.836,251.368 258.544,249.732 258.867,210.424Z"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <h1 class="hero-name">CharVim</h1>
+    <p class="hero-tagline">Neovim, crafted for flow.</p>
+
+    <a class="version-badge" href="changelog.html" aria-label="View changelog for v1.5.2">
+      <span class="v-num">v1.5.2</span>
+      <span class="v-sep" aria-hidden="true"></span>
+      <span class="v-label">Latest release</span>
+    </a>
+
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="docs.html">Get started</a>
+      <a class="btn btn-secondary" href="https://github.com/CrtlUserKnown/Charvim" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>scroll</span>
+      <div class="scroll-chevron"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-band">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <span class="stat-num">10+</span>
+        <span class="stat-label">LSP Servers</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Color Themes</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">6</span>
+        <span class="stat-label">Linters</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">5</span>
+        <span class="stat-label">DAP Adapters</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">4</span>
+        <span class="stat-label">Platforms</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="gradient-divider"></div>
+
+  <!-- FEATURES -->
+  <section class="section" aria-labelledby="features-heading">
+    <div class="section-inner">
+      <p class="section-label">What's inside</p>
+      <h2 class="section-title" id="features-heading">Everything you need.<br><span class="gradient-text">Nothing you don't.</span></h2>
+      <p class="section-subtitle">CharVim bundles a carefully chosen set of plugins and custom modules. Opinionated enough to feel cohesive, flexible enough to make your own.</p>
+
+      <div class="cards-grid">
+        <article class="card">
+          <span class="card-icon">⚡</span>
+          <h3 class="card-title">Lazy-loaded plugins</h3>
+          <p class="card-desc">Built on lazy.nvim with per-filetype loading. Your editor starts fast and stays fast, no matter how many plugins are installed.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-icon">🧠</span>
+          <h3 class="card-title">Full LSP suite</h3>
+          <p class="card-desc">Ten language servers pre-configured for Lua, Python, TypeScript, Java, Kotlin, Go, C/C++, Swift, Typst, and XML. All installed and managed through Mason.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-icon">🤖</span>
+          <h3 class="card-title">AI assistance</h3>
+          <p class="card-desc">avante.nvim powered by Anthropic Claude for inline code chat and AI-assisted editing. Just set <code>ANTHROPIC_API_KEY</code> and go.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-icon">🐛</span>
+          <h3 class="card-title">Debug Adapter Protocol</h3>
+          <p class="card-desc">DAP configured for Python, Java, C/C++, Swift, and Kotlin. The debug UI opens automatically when a session starts and closes when it ends.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-icon">🎨</span>
+          <h3 class="card-title">Three themes</h3>
+          <p class="card-desc">Knew-pines, Noir-cat, and Dark. Switch between them at runtime with a live Telescope preview, and your choice carries over between sessions.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-icon">🔎</span>
+          <h3 class="card-title">Find and Replace panel</h3>
+          <p class="card-desc">A custom nui.nvim panel backed by ripgrep. Live search with file preview, project-wide regex replace, and LSP rename when available.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-icon">📌</span>
+          <h3 class="card-title">Harpoon 2</h3>
+          <p class="card-desc">Quick file bookmarks with <kbd>Alt+1</kbd> through <kbd>Alt+5</kbd> jumps. Navigate your five most important files in a single keystroke.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-icon">✏️</span>
+          <h3 class="card-title">Multi-cursor</h3>
+          <p class="card-desc">Native multi-cursor implementation with no plugin dependency. Add cursors above or below with <kbd>Ctrl+↑</kbd> and <kbd>Ctrl+↓</kbd>, then type at all positions at once.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-icon">🖥️</span>
+          <h3 class="card-title">Cross-platform setup</h3>
+          <p class="card-desc">One install script, four platforms: macOS via Homebrew, Fedora, Debian/Ubuntu, and Arch Linux. Missing dependencies get installed automatically.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- THEMES SHOWCASE -->
+  <section class="section" aria-labelledby="themes-heading">
+    <div class="section-inner">
+      <p class="section-label">Color themes</p>
+      <h2 class="section-title" id="themes-heading">Three themes.<br><span class="gradient-text">Click to switch.</span></h2>
+      <p class="section-subtitle">All themes are available inside Neovim via <code>:ThemeSelect</code>. The site reflects whichever theme you pick.</p>
+
+      <div class="theme-previews" role="list">
+
+        <!-- Knew-pines -->
+        <div class="theme-preview tp-kp" data-theme="knew-pines" role="listitem" tabindex="0" aria-label="Knew-pines theme">
+          <div class="tp-header">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+            <span style="margin-left:0.4rem;">knew-pines</span>
+          </div>
+          <div class="tp-body">
+            <div><span class="syn-kw tp-kp">local</span> <span class="syn-var tp-kp">M</span> <span class="syn-op tp-kp">=</span> <span class="syn-num tp-kp">{}</span></div>
+            <div><span class="syn-fn tp-kp">function</span> <span class="syn-var tp-kp">M.setup</span><span class="syn-op tp-kp">(</span><span class="syn-var tp-kp">opts</span><span class="syn-op tp-kp">)</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-kw tp-kp">local</span> <span class="syn-var tp-kp">theme</span> <span class="syn-op tp-kp">=</span> <span class="syn-str tp-kp">"knew-pines"</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-cmt tp-kp">-- warm rose-pine palette</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-fn tp-kp">vim.cmd</span><span class="syn-op tp-kp">(</span><span class="syn-str tp-kp">"colorscheme " </span><span class="syn-op tp-kp">.. </span><span class="syn-var tp-kp">theme</span><span class="syn-op tp-kp">)</span></div>
+            <div><span class="syn-kw tp-kp">end</span></div>
+            <div><span class="syn-kw tp-kp">return</span> <span class="syn-var tp-kp">M</span></div>
+          </div>
+        </div>
+
+        <!-- Noir-cat -->
+        <div class="theme-preview tp-nc" data-theme="noir-cat" role="listitem" tabindex="0" aria-label="Noir-cat theme">
+          <div class="tp-header">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+            <span style="margin-left:0.4rem;">noir-cat</span>
+          </div>
+          <div class="tp-body">
+            <div><span class="syn-kw tp-nc">local</span> <span class="syn-var tp-nc">M</span> <span class="syn-op tp-nc">=</span> <span class="syn-num tp-nc">{}</span></div>
+            <div><span class="syn-fn tp-nc">function</span> <span class="syn-var tp-nc">M.setup</span><span class="syn-op tp-nc">(</span><span class="syn-var tp-nc">opts</span><span class="syn-op tp-nc">)</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-kw tp-nc">local</span> <span class="syn-var tp-nc">theme</span> <span class="syn-op tp-nc">=</span> <span class="syn-str tp-nc">"noir-cat"</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-cmt tp-nc">-- dark catppuccin-inspired</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-fn tp-nc">vim.cmd</span><span class="syn-op tp-nc">(</span><span class="syn-str tp-nc">"colorscheme " </span><span class="syn-op tp-nc">.. </span><span class="syn-var tp-nc">theme</span><span class="syn-op tp-nc">)</span></div>
+            <div><span class="syn-kw tp-nc">end</span></div>
+            <div><span class="syn-kw tp-nc">return</span> <span class="syn-var tp-nc">M</span></div>
+          </div>
+        </div>
+
+        <!-- Dark -->
+        <div class="theme-preview tp-dk" data-theme="dark" role="listitem" tabindex="0" aria-label="Dark theme">
+          <div class="tp-header">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+            <span style="margin-left:0.4rem;">dark</span>
+          </div>
+          <div class="tp-body">
+            <div><span class="syn-kw tp-dk">local</span> <span class="syn-var tp-dk">M</span> <span class="syn-op tp-dk">=</span> <span class="syn-num tp-dk">{}</span></div>
+            <div><span class="syn-fn tp-dk">function</span> <span class="syn-var tp-dk">M.setup</span><span class="syn-op tp-dk">(</span><span class="syn-var tp-dk">opts</span><span class="syn-op tp-dk">)</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-kw tp-dk">local</span> <span class="syn-var tp-dk">theme</span> <span class="syn-op tp-dk">=</span> <span class="syn-str tp-dk">"dark"</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-cmt tp-dk">-- minimal github-dark palette</span></div>
+            <div>&nbsp;&nbsp;<span class="syn-fn tp-dk">vim.cmd</span><span class="syn-op tp-dk">(</span><span class="syn-str tp-dk">"colorscheme " </span><span class="syn-op tp-dk">.. </span><span class="syn-var tp-dk">theme</span><span class="syn-op tp-dk">)</span></div>
+            <div><span class="syn-kw tp-dk">end</span></div>
+            <div><span class="syn-kw tp-dk">return</span> <span class="syn-var tp-dk">M</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- INSTALL -->
+  <section class="install-band" aria-labelledby="install-heading">
+    <p class="section-label" style="justify-content:center;display:flex;">Installation</p>
+    <h2 class="section-title" id="install-heading" style="text-align:center;">One command to get started.</h2>
+    <p style="text-align:center;color:var(--text-dim);max-width:480px;margin:0 auto;line-height:1.7;font-size:0.95rem;">
+      The install script detects your OS and installs all required dependencies before symlinking the config into place.
+    </p>
+    <div style="text-align:center;">
+      <div class="code-block">
+        <code>bash &lt;(curl -s https://raw.githubusercontent.com/CrtlUserKnown/Charvim/main/setup.sh)</code>
+        <button class="copy-btn" aria-label="Copy install command" title="Copy">⧉</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <a class="btn btn-secondary" href="docs.html#installation">Manual install guide</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="footer-logo" viewBox="0 0 317 319" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" aria-hidden="true">
+        <g transform="matrix(1,0,0,1,-35.917861,-42.367234)">
+          <g>
+            <g transform="matrix(2.631266,0,0,2.600643,-317.140351,-356.595763)">
+              <path class="logo-primary" d="M140.378,275.999L143.656,174.845C143.774,172.66 143.833,171.302 143.833,170.77C143.833,165.751 140.615,163.241 134.178,163.241L137.19,153.409L188.298,153.409L185.287,163.241C179.913,163.241 176.4,164.039 174.746,165.633C173.093,167.227 172.148,171.184 171.912,177.502L169.609,243.935L213.277,181.222C216.348,176.735 217.883,173.191 217.883,170.593C217.883,168.645 216.894,166.932 214.916,165.456C212.937,163.98 210.265,163.241 206.899,163.241L204.685,163.241L207.697,153.409L254.465,153.409L251.542,163.241C246.286,163.359 241.71,164.865 237.813,167.759C233.915,170.652 228.63,176.794 221.957,186.183L158.714,275.999L140.378,275.999Z" style="fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1.740079,0,-0.240372,1.199533,-137.411133,-14.95078)">
+              <path class="logo-accent" d="M258.867,210.424C270.725,224.031 288.197,251.204 288.197,284.102C288.197,301.873 276.466,313.564 262.016,313.564C247.567,313.564 235.836,300.365 235.836,284.102C235.836,251.368 258.544,249.732 258.867,210.424Z"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <span class="footer-name">CharVim</span>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li>
+      <li><a href="changelog.html">Changelog</a></li>
+      <li><a href="https://github.com/CrtlUserKnown/Charvim" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <p class="footer-copy">Built by <a href="https://github.com/CrtlUserKnown" style="color:var(--accent);text-decoration:none;">CrtlUserKnown</a>. Open source and always free.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

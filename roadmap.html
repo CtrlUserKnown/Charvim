@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="knew-pines">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roadmap | CharVim</title>
+  <meta name="description" content="CharVim release history and future roadmap, from v0.1.0 to what's coming next." />
+  <meta name="author" content="CrtlUserKnown" />
+  <meta name="theme-color" content="#191724" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta property="og:title" content="Roadmap | CharVim" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://ctrluserknown.github.io/Charvim/roadmap.html" />
+  <link rel="icon" href="img/favicon/charvim.svg" type="image/svg+xml" />
+  <link rel="alternate icon" href="img/favicon/charvim-atl.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="img/favicon/charvim.svg" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "name": "CharVim Roadmap",
+        "description": "Release history and planned features for CharVim, a custom Neovim configuration.",
+        "url": "https://ctrluserknown.github.io/Charvim/roadmap.html"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ctrluserknown.github.io/Charvim/" },
+          { "@type": "ListItem", "position": 2, "name": "Roadmap", "item": "https://ctrluserknown.github.io/Charvim/roadmap.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<div class="cursor-gradient" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html">
+    <svg class="nav-brand-logo" viewBox="0 0 317 319" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" aria-hidden="true">
+      <g transform="matrix(1,0,0,1,-35.917861,-42.367234)">
+        <g>
+          <g transform="matrix(2.631266,0,0,2.600643,-317.140351,-356.595763)">
+            <path class="logo-primary" d="M140.378,275.999L143.656,174.845C143.774,172.66 143.833,171.302 143.833,170.77C143.833,165.751 140.615,163.241 134.178,163.241L137.19,153.409L188.298,153.409L185.287,163.241C179.913,163.241 176.4,164.039 174.746,165.633C173.093,167.227 172.148,171.184 171.912,177.502L169.609,243.935L213.277,181.222C216.348,176.735 217.883,173.191 217.883,170.593C217.883,168.645 216.894,166.932 214.916,165.456C212.937,163.98 210.265,163.241 206.899,163.241L204.685,163.241L207.697,153.409L254.465,153.409L251.542,163.241C246.286,163.359 241.71,164.865 237.813,167.759C233.915,170.652 228.63,176.794 221.957,186.183L158.714,275.999L140.378,275.999Z" style="fill-rule:nonzero;"/>
+          </g>
+          <g transform="matrix(1.740079,0,-0.240372,1.199533,-137.411133,-14.95078)">
+            <path class="logo-accent" d="M258.867,210.424C270.725,224.031 288.197,251.204 288.197,284.102C288.197,301.873 276.466,313.564 262.016,313.564C247.567,313.564 235.836,300.365 235.836,284.102C235.836,251.368 258.544,249.732 258.867,210.424Z"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <span class="nav-brand-name">CharVim</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="docs.html">Docs</a></li>
+    <li><a href="roadmap.html">Roadmap</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+    <li><a href="https://github.com/CrtlUserKnown/Charvim" target="_blank" rel="noopener">GitHub ↗</a></li>
+  </ul>
+
+  <div class="theme-switcher" role="group" aria-label="Select color theme">
+    <button class="theme-btn" data-theme="knew-pines">knew-pines</button>
+    <button class="theme-btn" data-theme="noir-cat">noir-cat</button>
+    <button class="theme-btn" data-theme="dark">dark</button>
+  </div>
+
+  <button class="hamburger" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero" aria-label="Roadmap">
+    <p class="section-label">Release history &amp; plans</p>
+    <h1 class="section-title">Roadmap</h1>
+    <p class="section-subtitle">From the very first commit to what's being built next, this is the full timeline of CharVim's evolution.</p>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- TIMELINE -->
+  <div class="roadmap-wrap">
+    <div class="timeline" aria-label="Release timeline">
+
+      <!-- PLANNED: v1.6.0 -->
+      <div class="tl-item">
+        <div class="tl-dot planned" aria-hidden="true"></div>
+        <div class="tl-version">v1.6.0</div>
+        <div class="tl-date">Planned for 2026</div>
+        <h2 class="tl-title">Extended Language Support</h2>
+        <div class="tl-card">
+          <p class="tl-desc">Expanding the LSP and DAP ecosystem with additional language servers, better adapter reliability, and quality-of-life improvements across the board.</p>
+          <div class="tag-list">
+            <span class="tag tag-planned">Rust / rust-analyzer</span>
+            <span class="tag tag-planned">Ruby / solargraph</span>
+            <span class="tag tag-planned">Better Swift DAP</span>
+            <span class="tag tag-planned">Snippet library</span>
+            <span class="tag tag-planned">Save popup v2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLANNED: v2.0.0 -->
+      <div class="tl-item">
+        <div class="tl-dot planned" aria-hidden="true"></div>
+        <div class="tl-version">v2.0.0</div>
+        <div class="tl-date">Planned for the future</div>
+        <h2 class="tl-title">CLI Tooling, Theme Authoring, and In-Editor Updates</h2>
+        <div class="tl-card">
+          <p class="tl-desc">This release focuses on making CharVim feel like a complete, polished product from the command line down. A dedicated CLI will wrap common workflows, a theme authoring guide and toolkit will make it easy to build and share custom themes, and the update system will move fully in-editor so you never have to leave Neovim to stay current.</p>
+          <div class="tag-list">
+            <span class="tag tag-planned">cvim CLI command</span>
+            <span class="tag tag-planned">Project scaffolding via CLI</span>
+            <span class="tag tag-planned">Theme authoring guide</span>
+            <span class="tag tag-planned">Theme template and validator</span>
+            <span class="tag tag-planned">In-editor auto-update UI</span>
+            <span class="tag tag-planned">Update diff preview</span>
+            <span class="tag tag-planned">Plugin extension API</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLANNED: v3.0.0 -->
+      <div class="tl-item">
+        <div class="tl-dot planned" aria-hidden="true"></div>
+        <div class="tl-version">v3.0.0</div>
+        <div class="tl-date">Planned, long term</div>
+        <h2 class="tl-title">CharVim as a Standalone Distribution</h2>
+        <div class="tl-card">
+          <p class="tl-desc">The far-horizon goal: CharVim becomes its own self-contained program. No Neovim installation required, no plugin manager, no external dependencies to wrangle. The editor runtime, language servers, and tooling ship together as a single installable application. A native GUI interface is part of this release, making CharVim accessible as a first-class desktop editor while keeping the full modal Vim experience intact underneath.</p>
+          <div class="tag-list">
+            <span class="tag tag-planned">Standalone binary</span>
+            <span class="tag tag-planned">Native GUI interface</span>
+            <span class="tag tag-planned">Bundled language servers</span>
+            <span class="tag tag-planned">No plugin manager required</span>
+            <span class="tag tag-planned">Self-updating runtime</span>
+            <span class="tag tag-planned">Cross-platform app bundle</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- v1.5.2 -->
+      <div class="tl-item">
+        <div class="tl-dot" aria-hidden="true"></div>
+        <div class="tl-version">v1.5.2</div>
+        <div class="tl-date">June 26, 2026</div>
+        <h2 class="tl-title">Cross-Platform Setup</h2>
+        <div class="tl-card">
+          <p class="tl-desc">Rewrote the setup script to support macOS (Homebrew), Debian/Ubuntu (apt), and Arch Linux (pacman) alongside the existing Fedora support. Each platform function checks for missing binaries before installing, keeping installs minimal.</p>
+          <div class="tag-list">
+            <span class="tag tag-added">macOS via brew</span>
+            <span class="tag tag-added">Debian / Ubuntu via apt</span>
+            <span class="tag tag-added">Arch Linux via pacman</span>
+            <span class="tag tag-changed">Per-platform installer design</span>
+            <span class="tag tag-changed">Expanded dependency list</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- v1.5.1 -->
+      <div class="tl-item">
+        <div class="tl-dot" aria-hidden="true"></div>
+        <div class="tl-version">v1.5.1</div>
+        <div class="tl-date">June 26, 2026</div>
+        <h2 class="tl-title">Find &amp; Replace Panel + Theme Persistence</h2>
+        <div class="tl-card">
+          <p class="tl-desc">Replaced the old inline rename with a full find &amp; replace panel backed by ripgrep. Rewrote the theme switcher with live Telescope preview and cross-session persistence. Switched avante from local Ollama to Anthropic Claude.</p>
+          <div class="tag-list">
+            <span class="tag tag-added">rename-config.lua panel</span>
+            <span class="tag tag-added">Live ripgrep search</span>
+            <span class="tag tag-added">Theme persistence</span>
+            <span class="tag tag-added">Telescope theme preview</span>
+            <span class="tag tag-added">Persistent undo</span>
+            <span class="tag tag-changed">avante → Anthropic Claude</span>
+            <span class="tag tag-fixed">SourceKit-LSP C/C++ conflict</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- v1.5.0 -->
+      <div class="tl-item">
+        <div class="tl-dot" aria-hidden="true"></div>
+        <div class="tl-version">v1.5.0</div>
+        <div class="tl-date">June 17, 2026</div>
+        <h2 class="tl-title">AI, Multi-Theme &amp; Linting</h2>
+        <div class="tl-card">
+          <p class="tl-desc">Introduced local AI code completion via avante.nvim + Ollama, added Tokyo Night, Catppuccin, and Gruvbox themes with a runtime theme-switcher module, and integrated configurable linting via nvim-lint. GitHub Copilot was removed.</p>
+          <div class="tag-list">
+            <span class="tag tag-added">avante.nvim (Ollama)</span>
+            <span class="tag tag-added">Tokyo Night theme</span>
+            <span class="tag tag-added">Catppuccin theme</span>
+            <span class="tag tag-added">Gruvbox theme</span>
+            <span class="tag tag-added">theme-switcher module</span>
+            <span class="tag tag-added">lint-config.lua</span>
+            <span class="tag tag-added">noir-cat colorscheme</span>
+            <span class="tag tag-changed">nvim-cmp + LuaSnip (restored)</span>
+            <span class="tag tag-removed">GitHub Copilot</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- v1.3.0 -->
+      <div class="tl-item">
+        <div class="tl-dot" aria-hidden="true"></div>
+        <div class="tl-version">v1.3.0</div>
+        <div class="tl-date">May 6, 2026</div>
+        <h2 class="tl-title">Neovim 0.12 Compatibility</h2>
+        <div class="tl-card">
+          <p class="tl-desc">Major internal refactoring and optimizations for Neovim 0.12. Switched to native LSP completion, added Mason dashboard integration, new file runners, and resolved several breaking API changes.</p>
+          <div class="tag-list">
+            <span class="tag tag-added">Mason in dashboard</span>
+            <span class="tag tag-added">HTML / Python / Java runners</span>
+            <span class="tag tag-added">nvim-ts-autotag</span>
+            <span class="tag tag-changed">Native LSP completion</span>
+            <span class="tag tag-changed">0.12 API compatibility</span>
+            <span class="tag tag-fixed">Treesitter parser retrieval</span>
+            <span class="tag tag-fixed">scrolloff option</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- v1.2.0 -->
+      <div class="tl-item">
+        <div class="tl-dot" aria-hidden="true"></div>
+        <div class="tl-version">v1.2.0</div>
+        <div class="tl-date">March 29, 2026</div>
+        <h2 class="tl-title">Project Management &amp; CI</h2>
+        <div class="tl-card">
+          <p class="tl-desc">Added project.nvim for smart project detection and workspace switching via Telescope. Set up GitHub Actions for Neovim configuration tests.</p>
+          <div class="tag-list">
+            <span class="tag tag-added">project.nvim</span>
+            <span class="tag tag-added">GitHub Actions CI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- v1.1.0 -->
+      <div class="tl-item">
+        <div class="tl-dot" aria-hidden="true"></div>
+        <div class="tl-version">v1.1.0</div>
+        <div class="tl-date">March 10, 2026</div>
+        <h2 class="tl-title">Debugger Integration &amp; Setup Script</h2>
+        <div class="tl-card">
+          <p class="tl-desc">Integrated DAP debuggers for Java, Swift, Python, and C/C++ with customized UI layouts and session management. Added setup.sh for easier installation and improved COBOL language support.</p>
+          <div class="tag-list">
+            <span class="tag tag-added">DAP (Java, Swift, Python, C/C++)</span>
+            <span class="tag tag-added">setup.sh installer</span>
+            <span class="tag tag-added">COBOL ftplugin</span>
+            <span class="tag tag-added">GitHub Actions setup tests</span>
+            <span class="tag tag-fixed">Symlink creation reliability</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- v0.1.0 -->
+      <div class="tl-item">
+        <div class="tl-dot" aria-hidden="true"></div>
+        <div class="tl-version">v0.1.0</div>
+        <div class="tl-date">March 5, 2026</div>
+        <h2 class="tl-title">Initial Release</h2>
+        <div class="tl-card">
+          <p class="tl-desc">The first public release of CharVim. A full Neovim configuration with comprehensive LSP support, GitHub Copilot AI, a beautiful dashboard, telescope fuzzy finding, harpoon file navigation, and tmux integration.</p>
+          <div class="tag-list">
+            <span class="tag tag-added">GitHub Copilot</span>
+            <span class="tag tag-added">LSP via mason.nvim</span>
+            <span class="tag tag-added">JDTLS, Tinymist, gopls</span>
+            <span class="tag tag-added">alpha-nvim dashboard</span>
+            <span class="tag tag-added">noice.nvim</span>
+            <span class="tag tag-added">rose-pine colorscheme</span>
+            <span class="tag tag-added">telescope.nvim</span>
+            <span class="tag tag-added">harpoon2</span>
+            <span class="tag tag-added">vim-tmux-navigator</span>
+            <span class="tag tag-added">nvim-surround</span>
+            <span class="tag tag-added">Official wiki</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /timeline -->
+
+    <div style="text-align:center;margin-top:2rem;">
+      <a class="btn btn-secondary" href="https://github.com/CrtlUserKnown/Charvim/blob/main/CHANGELOG" target="_blank" rel="noopener">Full CHANGELOG on GitHub ↗</a>
+    </div>
+  </div><!-- /roadmap-wrap -->
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="footer-logo" viewBox="0 0 317 319" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" aria-hidden="true">
+        <g transform="matrix(1,0,0,1,-35.917861,-42.367234)">
+          <g>
+            <g transform="matrix(2.631266,0,0,2.600643,-317.140351,-356.595763)">
+              <path class="logo-primary" d="M140.378,275.999L143.656,174.845C143.774,172.66 143.833,171.302 143.833,170.77C143.833,165.751 140.615,163.241 134.178,163.241L137.19,153.409L188.298,153.409L185.287,163.241C179.913,163.241 176.4,164.039 174.746,165.633C173.093,167.227 172.148,171.184 171.912,177.502L169.609,243.935L213.277,181.222C216.348,176.735 217.883,173.191 217.883,170.593C217.883,168.645 216.894,166.932 214.916,165.456C212.937,163.98 210.265,163.241 206.899,163.241L204.685,163.241L207.697,153.409L254.465,153.409L251.542,163.241C246.286,163.359 241.71,164.865 237.813,167.759C233.915,170.652 228.63,176.794 221.957,186.183L158.714,275.999L140.378,275.999Z" style="fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1.740079,0,-0.240372,1.199533,-137.411133,-14.95078)">
+              <path class="logo-accent" d="M258.867,210.424C270.725,224.031 288.197,251.204 288.197,284.102C288.197,301.873 276.466,313.564 262.016,313.564C247.567,313.564 235.836,300.365 235.836,284.102C235.836,251.368 258.544,249.732 258.867,210.424Z"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <span class="footer-name">CharVim</span>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li>
+      <li><a href="changelog.html">Changelog</a></li>
+      <li><a href="https://github.com/CrtlUserKnown/Charvim" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <p class="footer-copy">Built by <a href="https://github.com/CrtlUserKnown" style="color:var(--accent);text-decoration:none;">CrtlUserKnown</a>. Open source and always free.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

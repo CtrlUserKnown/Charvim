@@ -1,7 +1,0 @@
-# Neovim
-lazy-lock.json
-.DS_Store
-
-# Backup files
-*.backup
-*~

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="knew-pines">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation | CharVim</title>
+  <meta name="description" content="Full documentation for CharVim: keybindings, plugins, LSP, DAP, theming, user customization, and all custom commands." />
+  <meta name="author" content="CrtlUserKnown" />
+  <meta name="theme-color" content="#191724" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta property="og:title" content="Documentation | CharVim" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://ctrluserknown.github.io/Charvim/docs.html" />
+  <link rel="icon" href="img/favicon/charvim.svg" type="image/svg+xml" />
+  <link rel="alternate icon" href="img/favicon/charvim-atl.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="img/favicon/charvim.svg" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "name": "CharVim Documentation",
+        "description": "Complete documentation for the CharVim Neovim configuration, including keybindings, plugins, LSP setup, DAP, and user customization.",
+        "url": "https://ctrluserknown.github.io/Charvim/docs.html",
+        "author": { "@type": "Person", "name": "CrtlUserKnown" },
+        "about": { "@type": "SoftwareApplication", "name": "CharVim" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ctrluserknown.github.io/Charvim/" },
+          { "@type": "ListItem", "position": 2, "name": "Documentation", "item": "https://ctrluserknown.github.io/Charvim/docs.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<div class="cursor-gradient" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html">
+    <svg class="nav-brand-logo" viewBox="0 0 317 319" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" aria-hidden="true">
+      <g transform="matrix(1,0,0,1,-35.917861,-42.367234)">
+        <g>
+          <g transform="matrix(2.631266,0,0,2.600643,-317.140351,-356.595763)">
+            <path class="logo-primary" d="M140.378,275.999L143.656,174.845C143.774,172.66 143.833,171.302 143.833,170.77C143.833,165.751 140.615,163.241 134.178,163.241L137.19,153.409L188.298,153.409L185.287,163.241C179.913,163.241 176.4,164.039 174.746,165.633C173.093,167.227 172.148,171.184 171.912,177.502L169.609,243.935L213.277,181.222C216.348,176.735 217.883,173.191 217.883,170.593C217.883,168.645 216.894,166.932 214.916,165.456C212.937,163.98 210.265,163.241 206.899,163.241L204.685,163.241L207.697,153.409L254.465,153.409L251.542,163.241C246.286,163.359 241.71,164.865 237.813,167.759C233.915,170.652 228.63,176.794 221.957,186.183L158.714,275.999L140.378,275.999Z" style="fill-rule:nonzero;"/>
+          </g>
+          <g transform="matrix(1.740079,0,-0.240372,1.199533,-137.411133,-14.95078)">
+            <path class="logo-accent" d="M258.867,210.424C270.725,224.031 288.197,251.204 288.197,284.102C288.197,301.873 276.466,313.564 262.016,313.564C247.567,313.564 235.836,300.365 235.836,284.102C235.836,251.368 258.544,249.732 258.867,210.424Z"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <span class="nav-brand-name">CharVim</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="docs.html">Docs</a></li>
+    <li><a href="roadmap.html">Roadmap</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+    <li><a href="https://github.com/CrtlUserKnown/Charvim" target="_blank" rel="noopener">GitHub ↗</a></li>
+  </ul>
+
+  <div class="theme-switcher" role="group" aria-label="Select color theme">
+    <button class="theme-btn" data-theme="knew-pines">knew-pines</button>
+    <button class="theme-btn" data-theme="noir-cat">noir-cat</button>
+    <button class="theme-btn" data-theme="dark">dark</button>
+  </div>
+
+  <button class="hamburger" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main>
+<div class="docs-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="docs-sidebar" aria-label="Documentation navigation">
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Getting Started</div>
+      <ul class="sidebar-links">
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#requirements">Requirements</a></li>
+        <li><a href="#how-vim-works">How Vim Works</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Keybindings</div>
+      <ul class="sidebar-links">
+        <li><a href="#leader-keys">Leader Keys</a></li>
+        <li><a href="#general">General</a></li>
+        <li><a href="#navigation">Navigation</a></li>
+        <li><a href="#line-manipulation">Line Manipulation</a></li>
+        <li><a href="#file-explorer">File Explorer</a></li>
+        <li><a href="#telescope">Telescope</a></li>
+        <li><a href="#harpoon">Harpoon 2</a></li>
+        <li><a href="#multi-cursor">Multi-Cursor</a></li>
+        <li><a href="#find-replace">Find &amp; Replace</a></li>
+        <li><a href="#lsp">LSP</a></li>
+        <li><a href="#dap">Debugging (DAP)</a></li>
+        <li><a href="#ai">AI</a></li>
+        <li><a href="#themes-keys">Themes</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Plugins</div>
+      <ul class="sidebar-links">
+        <li><a href="#plugins-ui">UI</a></li>
+        <li><a href="#plugins-nav">Navigation</a></li>
+        <li><a href="#plugins-editing">Editing</a></li>
+        <li><a href="#plugins-lsp">LSP &amp; Diagnostics</a></li>
+        <li><a href="#plugins-completion">Completion</a></li>
+        <li><a href="#plugins-linting">Linting</a></li>
+        <li><a href="#plugins-dap">Debugging</a></li>
+        <li><a href="#plugins-syntax">Syntax</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Configuration</div>
+      <ul class="sidebar-links">
+        <li><a href="#editor-options">Editor Options</a></li>
+        <li><a href="#statusline">Statusline</a></li>
+        <li><a href="#filetype">Filetype Settings</a></li>
+        <li><a href="#user-customization">User Customization</a></li>
+        <li><a href="#update-checker">Update Checker</a></li>
+        <li><a href="#uninstall">Uninstall</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Reference</div>
+      <ul class="sidebar-links">
+        <li><a href="#commands">Custom Commands</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+      </ul>
+    </div>
+
+  </aside>
+
+  <!-- CONTENT -->
+  <article class="docs-content">
+
+    <h1>Documentation</h1>
+    <p class="docs-lead">Complete reference for CharVim, a custom Neovim 0.12+ configuration managed by lazy.nvim. The entry point is <code>nvim/init.lua</code> and all modules live in <code>nvim/lua/</code>.</p>
+
+    <!-- INSTALLATION -->
+    <h2 id="installation">Installation</h2>
+    <p>Run the install script. It auto-detects your OS and installs missing system dependencies before symlinking the config into <code>~/.config/nvim</code>.</p>
+    <div class="code-block">
+      <code>bash &lt;(curl -s https://raw.githubusercontent.com/CrtlUserKnown/Charvim/main/setup.sh)</code>
+      <button class="copy-btn" aria-label="Copy" title="Copy" style="margin-left:auto;">⧉</button>
+    </div>
+
+    <p>Supported package managers:</p>
+    <table>
+      <thead><tr><th>OS / Distro</th><th>Package manager</th></tr></thead>
+      <tbody>
+        <tr><td>macOS</td><td><code>brew</code></td></tr>
+        <tr><td>Fedora / RHEL</td><td><code>dnf</code></td></tr>
+        <tr><td>Debian / Ubuntu</td><td><code>apt</code></td></tr>
+        <tr><td>Arch Linux</td><td><code>pacman</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Manual install</h3>
+    <ol>
+      <li>Back up your existing config: <code>mv ~/.config/nvim ~/.config/nvim.bak</code></li>
+      <li>Clone the repository: <code>git clone https://github.com/CrtlUserKnown/Charvim.git ~/.config/nvim</code></li>
+      <li>Launch Neovim: <code>nvim</code></li>
+    </ol>
+    <p>Plugins install automatically via lazy.nvim on first launch.</p>
+
+    <!-- REQUIREMENTS -->
+    <h2 id="requirements">Requirements</h2>
+    <ul>
+      <li>Neovim 0.12+</li>
+      <li>Git</li>
+      <li>A <strong>Nerd Font</strong> for icons</li>
+      <li><code>ripgrep</code> for Telescope live grep and Find and Replace</li>
+      <li><code>fd</code> for Telescope file finding</li>
+      <li><code>python3</code> for DAP Python support</li>
+      <li><code>make</code> for building avante.nvim</li>
+      <li><code>node</code> for Mason-managed LSP servers</li>
+      <li><code>ANTHROPIC_API_KEY</code> (optional) for AI features via avante.nvim</li>
+    </ul>
+
+    <!-- HOW VIM WORKS -->
+    <h2 id="how-vim-works">How Vim Works</h2>
+    <p>Vim (and Neovim) is a <strong>modal</strong> editor. Keys do different things depending on the active mode. Press <kbd>Esc</kbd> to return to Normal mode from anywhere.</p>
+    <table>
+      <thead><tr><th>Mode</th><th>How to enter</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Normal</td><td><kbd>Esc</kbd></td><td>Navigation and commands. This is the default mode.</td></tr>
+        <tr><td>Insert</td><td><kbd>i</kbd> / <kbd>a</kbd> / <kbd>o</kbd></td><td>Typing text</td></tr>
+        <tr><td>Visual</td><td><kbd>v</kbd> / <kbd>V</kbd> / <kbd>Ctrl+v</kbd></td><td>Selecting blocks of text</td></tr>
+        <tr><td>Command-line</td><td><kbd>:</kbd> / <kbd>/</kbd></td><td>Saving, quitting, searching</td></tr>
+      </tbody>
+    </table>
+
+    <div class="docs-tip">
+      <strong>Tip</strong>
+      Efficiency in Vim comes from staying in Normal mode and combining operators with motions: <code>dw</code> deletes a word, <code>yy</code> yanks a line, <code>ci"</code> changes text inside quotes.
+    </div>
+
+    <!-- LEADER KEYS -->
+    <h2 id="leader-keys">Leader Keys</h2>
+    <table>
+      <thead><tr><th>Key</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td><code>&lt;leader&gt;</code></td><td><kbd>Space</kbd></td></tr>
+        <tr><td><code>&lt;localleader&gt;</code></td><td><kbd>\</kbd></td></tr>
+      </tbody>
+    </table>
+    <p>Leader key timeout: <strong>500 ms</strong>.</p>
+
+    <!-- GENERAL -->
+    <h2 id="general">General</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>jk</kbd></td><td>Insert</td><td>Escape to Normal mode</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>w</kbd></td><td>Normal</td><td>Quick save (<code>:w</code>)</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>W</kbd></td><td>Normal</td><td>Save popup (Save / Save As / Format &amp; Save / Save All)</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>q</kbd></td><td>Normal</td><td>Save and quit (<code>:wq</code>)</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>q</kbd><kbd>q</kbd></td><td>Normal</td><td>Quit without saving (<code>:q!</code>)</td></tr>
+        <tr><td><kbd>;</kbd></td><td>Normal</td><td>Shell command shortcut (<code>:!</code>)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- NAVIGATION -->
+    <h2 id="navigation">Navigation</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>[[</kbd></td><td>Normal</td><td>Go to beginning of file (<code>gg</code>)</td></tr>
+        <tr><td><kbd>]]</kbd></td><td>Normal</td><td>Go to end of file (<code>G</code>)</td></tr>
+        <tr><td><kbd>H</kbd></td><td>Normal / Visual</td><td>Go to beginning of line (<code>0</code>)</td></tr>
+        <tr><td><kbd>L</kbd></td><td>Normal / Visual</td><td>Go to end of line (<code>$</code>)</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>[</kbd></td><td>Normal / Visual</td><td>Previous paragraph (<code>{</code>)</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>]</kbd></td><td>Normal / Visual</td><td>Next paragraph (<code>}</code>)</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>h/j/k/l</kbd></td><td>Normal</td><td>Navigate splits (also integrates with tmux panes)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- LINE MANIPULATION -->
+    <h2 id="line-manipulation">Line Manipulation</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>Alt</kbd>+<kbd>k</kbd> / <kbd>Alt</kbd>+<kbd>j</kbd></td><td>Normal</td><td>Move line up / down</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>k</kbd> / <kbd>Alt</kbd>+<kbd>j</kbd></td><td>Visual</td><td>Move selection up / down</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>k</kbd> / <kbd>Ctrl</kbd>+<kbd>j</kbd></td><td>Insert</td><td>Move line up / down</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>k/j</kbd></td><td>Normal</td><td>Duplicate line up / down</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>k/j</kbd></td><td>Visual</td><td>Duplicate selection up / down</td></tr>
+      </tbody>
+    </table>
+
+    <!-- FILE EXPLORER -->
+    <h2 id="file-explorer">File Explorer</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>leader</kbd> <kbd>e</kbd></td><td>Normal</td><td>Open file browser at current file's directory</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>E</kbd></td><td>Normal</td><td>Open file browser at project root</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>t</kbd></td><td>Normal</td><td>Open new tab with file browser</td></tr>
+        <tr><td><code>:E</code> / <code>:Tree</code></td><td>Command</td><td>Open file browser</td></tr>
+      </tbody>
+    </table>
+
+    <!-- TELESCOPE -->
+    <h2 id="telescope">Telescope</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Context</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>leader</kbd> <kbd>g</kbd></td><td>Normal</td><td>Live grep</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>p</kbd></td><td>Normal</td><td>Projects picker</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>.</kbd></td><td>Telescope insert</td><td>Toggle hidden files</td></tr>
+      </tbody>
+    </table>
+    <p>Hidden files are shown by default. <code>.git/</code> directories are always ignored.</p>
+
+    <!-- HARPOON -->
+    <h2 id="harpoon">Harpoon 2</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>leader</kbd> <kbd>a</kbd></td><td>Normal</td><td>Add current file to Harpoon list</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>a</kbd><kbd>r</kbd></td><td>Normal</td><td>Remove current file from Harpoon list</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>a</kbd><kbd>c</kbd></td><td>Normal</td><td>Clear all Harpoon marks</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>h</kbd></td><td>Normal</td><td>Toggle Harpoon quick menu</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>1</kbd> – <kbd>5</kbd></td><td>Normal</td><td>Jump to Harpoon file 1–5</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>n</kbd> / <kbd>Alt</kbd>+<kbd>p</kbd></td><td>Normal</td><td>Next / previous Harpoon file</td></tr>
+      </tbody>
+    </table>
+
+    <!-- MULTI-CURSOR -->
+    <h2 id="multi-cursor">Multi-Cursor</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>n</kbd></td><td>Normal</td><td>Enter multi-cursor mode</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>↑</kbd></td><td>Normal / Visual</td><td>Add cursor above</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>↓</kbd></td><td>Normal / Visual</td><td>Add cursor below</td></tr>
+        <tr><td><kbd>j</kbd> / <kbd>k</kbd></td><td>Multi-cursor active</td><td>Move down/up and extend cursors</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Multi-cursor active</td><td>Exit multi-cursor mode</td></tr>
+      </tbody>
+    </table>
+    <p>In multi-cursor mode, entering Insert types at all cursor positions simultaneously.</p>
+
+    <!-- FIND & REPLACE -->
+    <h2 id="find-replace">Find &amp; Replace / Rename</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>leader</kbd> <kbd>S</kbd></td><td>Normal</td><td>Open find &amp; replace panel</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>S</kbd></td><td>Visual</td><td>Open panel pre-filled with selection</td></tr>
+        <tr><td><code>:Find</code></td><td>Command</td><td>Same as <kbd>leader</kbd> <kbd>S</kbd></td></tr>
+      </tbody>
+    </table>
+
+    <p>Panel navigation:</p>
+    <table>
+      <thead><tr><th>Keys</th><th>Context</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>Tab</kbd></td><td>Any panel</td><td>Cycle focus: Find → Replace → Results</td></tr>
+        <tr><td><kbd>j</kbd> / <kbd>k</kbd></td><td>Results list</td><td>Navigate matches</td></tr>
+        <tr><td><kbd>y</kbd></td><td>Results list</td><td>Accept replacement for highlighted match</td></tr>
+        <tr><td><kbd>Y</kbd></td><td>Any panel</td><td>Accept replacement for all matches</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>Results list</td><td>Jump to match in file</td></tr>
+        <tr><td><kbd>Esc</kbd> / <kbd>q</kbd></td><td>Any panel</td><td>Close</td></tr>
+      </tbody>
+    </table>
+    <p>When the find term matches an identifier with an active LSP client, <kbd>Y</kbd> uses LSP rename instead of regex substitution.</p>
+
+    <!-- LSP -->
+    <h2 id="lsp">LSP</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>K</kbd></td><td>Normal</td><td>Hover documentation</td></tr>
+        <tr><td><kbd>g</kbd><kbd>d</kbd></td><td>Normal</td><td>Go to definition</td></tr>
+        <tr><td><kbd>g</kbd><kbd>D</kbd></td><td>Normal</td><td>Go to declaration</td></tr>
+        <tr><td><kbd>g</kbd><kbd>i</kbd></td><td>Normal</td><td>Go to implementation</td></tr>
+        <tr><td><kbd>g</kbd><kbd>o</kbd></td><td>Normal</td><td>Go to type definition</td></tr>
+        <tr><td><kbd>g</kbd><kbd>r</kbd></td><td>Normal</td><td>Show references</td></tr>
+        <tr><td><kbd>g</kbd><kbd>s</kbd></td><td>Normal</td><td>Signature help</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>l</kbd><kbd>r</kbd></td><td>Normal</td><td>Rename symbol (LSP)</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>c</kbd><kbd>a</kbd></td><td>Normal</td><td>Code action</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>l</kbd><kbd>e</kbd></td><td>Normal</td><td>Open diagnostic float</td></tr>
+        <tr><td><kbd>[d</kbd> / <kbd>]d</kbd></td><td>Normal</td><td>Previous / next diagnostic</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>i</kbd><kbd>h</kbd></td><td>Normal</td><td>Toggle inlay hints</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>i</kbd><kbd>g</kbd></td><td>Normal</td><td>Add word to dictionary (ltex/typos)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Configured LSP Servers</h3>
+    <table>
+      <thead><tr><th>Server</th><th>Languages</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>lua_ls</code></td><td>Lua</td><td>Auto-installed via Mason</td></tr>
+        <tr><td><code>pyright</code></td><td>Python</td><td>Auto-installed via Mason</td></tr>
+        <tr><td><code>ts_ls</code></td><td>TypeScript / JavaScript / Vue</td><td>Auto-installed via Mason</td></tr>
+        <tr><td><code>jdtls</code></td><td>Java</td><td>Per-project workspace, GoogleStyle format</td></tr>
+        <tr><td><code>kotlin_language_server</code></td><td>Kotlin</td><td>JVM target 17, type &amp; param inlay hints</td></tr>
+        <tr><td><code>gopls</code></td><td>Go</td><td>gofumpt, full inlay hints, shadow analysis</td></tr>
+        <tr><td><code>clangd</code></td><td>C / C++ / Obj-C</td><td>Auto-installed via Mason</td></tr>
+        <tr><td><code>tinymist</code></td><td>Typst</td><td>Exports PDF on save</td></tr>
+        <tr><td><code>sourcekit-lsp</code></td><td>Swift / Obj-C</td><td>System binary; lazy-enabled on filetype</td></tr>
+        <tr><td><code>lemminx</code></td><td>XML</td><td>Auto-installed via Mason</td></tr>
+      </tbody>
+    </table>
+
+    <!-- DAP -->
+    <h2 id="dap">Debugging (DAP)</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>b</kbd></td><td>Normal</td><td>Toggle breakpoint</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>B</kbd></td><td>Normal</td><td>Set conditional breakpoint</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>c</kbd></td><td>Normal</td><td>Continue</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>n</kbd></td><td>Normal</td><td>Step over</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>i</kbd></td><td>Normal</td><td>Step into</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>o</kbd></td><td>Normal</td><td>Step out</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>r</kbd></td><td>Normal</td><td>Open REPL</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>l</kbd></td><td>Normal</td><td>Run last configuration</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>t</kbd></td><td>Normal</td><td>Terminate session</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>u</kbd></td><td>Normal</td><td>Toggle DAP UI</td></tr>
+        <tr><td><kbd>leader</kbd> <kbd>d</kbd><kbd>p</kbd></td><td>Normal</td><td>Debug Python method under cursor</td></tr>
+      </tbody>
+    </table>
+
+    <table>
+      <thead><tr><th>Language</th><th>Adapter</th></tr></thead>
+      <tbody>
+        <tr><td>Python</td><td>dap-python</td></tr>
+        <tr><td>Java</td><td>jdtls built-in</td></tr>
+        <tr><td>C / C++</td><td>codelldb</td></tr>
+        <tr><td>Swift</td><td>codelldb</td></tr>
+        <tr><td>Kotlin</td><td>kotlin-debug-adapter</td></tr>
+      </tbody>
+    </table>
+    <p>The DAP UI opens automatically when a session starts and closes when it ends.</p>
+
+    <!-- AI -->
+    <h2 id="ai">AI (avante.nvim)</h2>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>Alt</kbd>+<kbd>Enter</kbd></td><td>Insert</td><td>Accept inline suggestion</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>]</kbd></td><td>Insert</td><td>Next suggestion</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>]</kbd></td><td>Insert</td><td>Dismiss suggestion</td></tr>
+      </tbody>
+    </table>
+    <p>Requires <code>ANTHROPIC_API_KEY</code> set in a <code>.env</code> file at the repo root. The file is auto-loaded on startup.</p>
+
+    <!-- THEMES -->
+    <h2 id="themes-keys">Themes</h2>
+    <table>
+      <thead><tr><th>Keys / Command</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><code>:ThemeSelect</code></td><td>Open interactive theme picker with Telescope live-preview</td></tr>
+        <tr><td><code>:Theme &lt;name&gt;</code></td><td>Switch directly to a named theme</td></tr>
+        <tr><td>Dashboard <kbd>t</kbd></td><td>Open theme picker from the dashboard</td></tr>
+      </tbody>
+    </table>
+    <p>Available theme names: <code>Auto</code>, <code>Knew-pines</code>, <code>Noir-cat</code>, <code>Tokyo Night</code>, <code>Catppuccin</code>, <code>Gruvbox</code>, <code>Habamax</code>. Selection persists to <code>~/.local/share/nvim/charvim_theme</code>.</p>
+
+    <!-- PLUGINS UI -->
+    <h2 id="plugins-ui">UI Plugins</h2>
+    <ul>
+      <li><strong>noice.nvim</strong>: Replaces the command line with a centered popup.</li>
+      <li><strong>alpha-nvim</strong>: Dashboard with ASCII art logo and a two-column quick-access grid.</li>
+      <li><strong>which-key.nvim</strong>: Displays available keybindings in a popup using the modern preset.</li>
+    </ul>
+
+    <!-- PLUGINS NAV -->
+    <h2 id="plugins-nav">Navigation and File Management</h2>
+    <ul>
+      <li><strong>telescope.nvim</strong> and <strong>telescope-file-browser.nvim</strong>: Fuzzy finder and file browser that replaces netrw. Shows hidden files by default.</li>
+      <li><strong>project.nvim</strong>: Project detection and management via Telescope.</li>
+      <li><strong>harpoon</strong> (v2): Quick file bookmarking and navigation.</li>
+      <li><strong>vim-tmux-navigator</strong>: Seamless navigation between Neovim splits and tmux panes.</li>
+    </ul>
+
+    <!-- PLUGINS EDITING -->
+    <h2 id="plugins-editing">Editing Tools</h2>
+    <ul>
+      <li><strong>nvim-surround</strong>: Add, change, and delete surrounding pairs.</li>
+      <li><strong>multicursor</strong> (custom): Native multi-cursor implementation.</li>
+      <li><strong>autoclose</strong> (custom): Auto-closes brackets, quotes, and backticks.</li>
+      <li><strong>rename-config</strong> (custom): Find and Replace panel backed by <code>rg</code>.</li>
+      <li><strong>save-popup</strong> (custom): Context-aware save options via <kbd>leader</kbd><kbd>W</kbd>.</li>
+    </ul>
+
+    <!-- PLUGINS LSP -->
+    <h2 id="plugins-lsp">LSP and Diagnostics</h2>
+    <ul>
+      <li><strong>mason.nvim</strong>: Installs and manages LSP servers, linters, and DAP adapters.</li>
+      <li>LSP servers registered directly with <code>vim.lsp.config()</code> and <code>vim.lsp.enable()</code>.</li>
+      <li>Inlay hints enabled by default where supported. Toggle with <kbd>leader</kbd><kbd>ih</kbd>.</li>
+      <li>Diagnostic noise from ltex (sentence and paragraph length) is filtered globally.</li>
+    </ul>
+
+    <!-- PLUGINS COMPLETION -->
+    <h2 id="plugins-completion">Completion</h2>
+    <ul>
+      <li><strong>nvim-cmp</strong>: Completion engine with LSP and buffer sources.</li>
+      <li><strong>LuaSnip</strong>: Snippet engine.</li>
+    </ul>
+    <table>
+      <thead><tr><th>Keys</th><th>Mode</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Insert</td><td>Cycle through completion items</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>Insert</td><td>Confirm selected completion</td></tr>
+      </tbody>
+    </table>
+
+    <!-- PLUGINS LINTING -->
+    <h2 id="plugins-linting">Linting</h2>
+    <p>nvim-lint runs automatically on <code>BufWritePost</code> and <code>BufEnter</code>.</p>
+    <table>
+      <thead><tr><th>Language</th><th>Linter</th></tr></thead>
+      <tbody>
+        <tr><td>Lua</td><td>luacheck</td></tr>
+        <tr><td>Go</td><td>staticcheck</td></tr>
+        <tr><td>Python</td><td>ruff</td></tr>
+        <tr><td>JavaScript / TypeScript</td><td>eslint_d</td></tr>
+        <tr><td>Java</td><td>checkstyle</td></tr>
+        <tr><td>Kotlin</td><td>ktlint</td></tr>
+      </tbody>
+    </table>
+
+    <!-- PLUGINS DAP -->
+    <h2 id="plugins-dap">Debugging</h2>
+    <ul>
+      <li><strong>nvim-dap</strong> and <strong>nvim-dap-ui</strong>: Debug Adapter Protocol with an auto-managed UI.</li>
+      <li><strong>mason-nvim-dap</strong>: Ensures DAP adapters are installed via Mason.</li>
+    </ul>
+
+    <!-- PLUGINS SYNTAX -->
+    <h2 id="plugins-syntax">Syntax and Parsing</h2>
+    <ul>
+      <li><strong>nvim-treesitter</strong>: Syntax highlighting, indentation, and incremental selection.</li>
+      <li><strong>nvim-ts-autotag</strong>: Auto-closes and auto-renames HTML and JSX tags.</li>
+      <li><strong>typst-preview.nvim</strong>: Live browser preview for Typst files via <code>:TP</code>, <code>:TS</code>, <code>:TU</code>.</li>
+    </ul>
+
+    <!-- EDITOR OPTIONS -->
+    <h2 id="editor-options">Editor Options</h2>
+    <table>
+      <thead><tr><th>Option</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Line numbers</td><td>On (absolute)</td></tr>
+        <tr><td>Relative numbers</td><td>On</td></tr>
+        <tr><td>Tab width</td><td>4 spaces (expandtab)</td></tr>
+        <tr><td>Smart indent</td><td>On</td></tr>
+        <tr><td>Swap files</td><td>Off</td></tr>
+        <tr><td>Backup files</td><td>Off</td></tr>
+        <tr><td>Clipboard</td><td>System clipboard (<code>unnamedplus</code>)</td></tr>
+        <tr><td>Scroll offset</td><td>10 lines</td></tr>
+        <tr><td>Encoding</td><td>UTF-8</td></tr>
+        <tr><td>Cursor line</td><td>Highlighted (number only, gold color)</td></tr>
+        <tr><td>Command line height</td><td>0 (hidden)</td></tr>
+        <tr><td>Undo</td><td>Persistent (survives restarts)</td></tr>
+        <tr><td>Incremental substitute</td><td>Split preview (<code>inccommand = split</code>)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- STATUSLINE -->
+    <h2 id="statusline">Statusline</h2>
+    <p>Custom-built statusline (no plugin). Displays:</p>
+    <ul>
+      <li><strong>Left:</strong> Mode indicator letter + filename + modified flag <code>[+]</code></li>
+      <li><strong>Right:</strong> Save flash (<code>written</code>, shown 2s after save) + mode name + percentage + column</li>
+    </ul>
+    <table>
+      <thead><tr><th>Mode</th><th>Colour</th></tr></thead>
+      <tbody>
+        <tr><td>Normal</td><td>Gold <code>#f6c177</code></td></tr>
+        <tr><td>Insert</td><td>Foam <code>#9ccfd8</code></td></tr>
+        <tr><td>Visual</td><td>Iris <code>#c4a7e7</code></td></tr>
+        <tr><td>Command</td><td>Love <code>#eb6f92</code></td></tr>
+        <tr><td>Replace</td><td>Love <code>#eb6f92</code></td></tr>
+      </tbody>
+    </table>
+
+    <!-- FILETYPE -->
+    <h2 id="filetype">Filetype-Specific Settings</h2>
+    <h3>COBOL</h3>
+    <p>Tab width: 8 spaces. Colour columns at 7 and 73. Text width: 72.</p>
+    <h3>Crystal</h3>
+    <p><code>.cr</code> files fall back to Ruby syntax highlighting.</p>
+    <h3>Java</h3>
+    <p>Build system auto-detected (Maven / Gradle / Ant). JDTLS workspaces stored in <code>~/.cache/nvim/jdtls/&lt;project_name&gt;</code>.</p>
+    <h3>Kotlin</h3>
+    <p>Build system auto-detected (Gradle or Maven).</p>
+
+    <!-- USER CUSTOMIZATION -->
+    <h2 id="user-customization">User Customization</h2>
+    <p>Two git-ignored files allow personal settings that survive <code>git pull</code> updates. Auto-created with template comments on first startup.</p>
+
+    <h3><code>nvim/lua/user.lua</code></h3>
+    <p>Loaded last, after all CharVim config. Add keymaps, options, autocommands, or override any default:</p>
+    <pre><code>-- nvim/lua/user.lua
+vim.opt.wrap = true
+vim.keymap.set('n', '&lt;leader&gt;x', ':!echo hello&lt;CR&gt;', { desc = 'My command' })</code></pre>
+
+    <h3><code>nvim/lua/user-plugins.lua</code></h3>
+    <p>Return a lazy.nvim spec list to add personal plugins:</p>
+    <pre><code>-- nvim/lua/user-plugins.lua
+return {
+    { 'folke/zen-mode.nvim', opts = {} },
+}</code></pre>
+
+    <!-- UPDATE CHECKER -->
+    <h2 id="update-checker">Update Checker</h2>
+    <p>CharVim checks for new GitHub releases on startup. A Telescope popup appears when an update is found.</p>
+    <table>
+      <thead><tr><th>Option</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Update now</td><td>Runs <code>git pull</code> asynchronously</td></tr>
+        <tr><td>Remind me later</td><td>Dismisses; prompts again next startup</td></tr>
+        <tr><td>Skip vX.Y.Z</td><td>Suppresses this release permanently</td></tr>
+        <tr><td>Disable update checks</td><td>Turns off all future checks</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <thead><tr><th>Command</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><code>:CharvimUpdateCheck</code></td><td>Force a check now (also re-enables checks)</td></tr>
+        <tr><td><code>:CharvimUpdateEnable</code></td><td>Enable automatic update checks</td></tr>
+        <tr><td><code>:CharvimUpdateDisable</code></td><td>Disable automatic update checks</td></tr>
+      </tbody>
+    </table>
+    <p>Settings persist to <code>~/.local/share/nvim/charvim_settings.json</code>.</p>
+
+    <!-- UNINSTALL -->
+    <h2 id="uninstall">Uninstall / Reinstall</h2>
+    <p>Open from the dashboard (<kbd>u</kbd>) or with <code>:CharvimUninstall</code>.</p>
+    <table>
+      <thead><tr><th>Option</th><th>What it removes</th></tr></thead>
+      <tbody>
+        <tr><td>Reinstall</td><td>Re-runs <code>setup.sh</code>; falls back to recreating the symlink</td></tr>
+        <tr><td>Normal uninstall</td><td><code>~/.config/nvim</code> symlink + CharVim data files</td></tr>
+        <tr><td>Complete uninstall</td><td>Everything above + <code>lazy/</code>, <code>mason/</code>, and repo directory</td></tr>
+      </tbody>
+    </table>
+    <div class="docs-warn">
+      <strong>Warning</strong>
+      Complete uninstall is irreversible. Type <code>YES</code> at the confirmation prompt to proceed.
+    </div>
+
+    <!-- COMMANDS -->
+    <h2 id="commands">Custom Commands</h2>
+    <table>
+      <thead><tr><th>Command</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><code>:E</code> / <code>:Tree</code></td><td>Open Telescope file browser</td></tr>
+        <tr><td><code>:Find</code></td><td>Open find &amp; replace panel</td></tr>
+        <tr><td><code>:TP</code> / <code>:TS</code> / <code>:TU</code></td><td>Start / stop / update Typst preview</td></tr>
+        <tr><td><code>:ThemeSelect</code></td><td>Open interactive theme picker</td></tr>
+        <tr><td><code>:Theme &lt;name&gt;</code></td><td>Switch to a specific theme</td></tr>
+        <tr><td><code>:OpenInBrowser</code></td><td>Open current HTML file in browser</td></tr>
+        <tr><td><code>:RunPython</code></td><td>Run current Python file in split terminal</td></tr>
+        <tr><td><code>:RunJava</code></td><td>Compile and run current Java file</td></tr>
+        <tr><td><code>:CharvimUpdateCheck</code></td><td>Check for CharVim updates</td></tr>
+        <tr><td><code>:CharvimUninstall</code></td><td>Open uninstall / reinstall menu</td></tr>
+      </tbody>
+    </table>
+
+    <!-- DASHBOARD -->
+    <h2 id="dashboard">Dashboard</h2>
+    <p>Open with <code>:AlphaRedraw</code> or <kbd>leader</kbd><kbd>d</kbd>.</p>
+    <table>
+      <thead><tr><th>Key</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>f</kbd></td><td>Find file</td></tr>
+        <tr><td><kbd>r</kbd></td><td>Recent files</td></tr>
+        <tr><td><kbd>p</kbd></td><td>Projects</td></tr>
+        <tr><td><kbd>n</kbd></td><td>New file</td></tr>
+        <tr><td><kbd>g</kbd></td><td>Find text</td></tr>
+        <tr><td><kbd>c</kbd></td><td>Open config (<code>init.lua</code>)</td></tr>
+        <tr><td><kbd>l</kbd></td><td>Lazy plugin manager</td></tr>
+        <tr><td><kbd>m</kbd></td><td>Mason installer</td></tr>
+        <tr><td><kbd>t</kbd></td><td>Theme picker</td></tr>
+        <tr><td><kbd>d</kbd></td><td>Open docs in browser</td></tr>
+        <tr><td><kbd>u</kbd></td><td>Uninstall / reinstall menu</td></tr>
+        <tr><td><kbd>q</kbd></td><td>Quit</td></tr>
+      </tbody>
+    </table>
+
+  </article>
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="footer-logo" viewBox="0 0 317 319" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" aria-hidden="true">
+        <g transform="matrix(1,0,0,1,-35.917861,-42.367234)">
+          <g>
+            <g transform="matrix(2.631266,0,0,2.600643,-317.140351,-356.595763)">
+              <path class="logo-primary" d="M140.378,275.999L143.656,174.845C143.774,172.66 143.833,171.302 143.833,170.77C143.833,165.751 140.615,163.241 134.178,163.241L137.19,153.409L188.298,153.409L185.287,163.241C179.913,163.241 176.4,164.039 174.746,165.633C173.093,167.227 172.148,171.184 171.912,177.502L169.609,243.935L213.277,181.222C216.348,176.735 217.883,173.191 217.883,170.593C217.883,168.645 216.894,166.932 214.916,165.456C212.937,163.98 210.265,163.241 206.899,163.241L204.685,163.241L207.697,153.409L254.465,153.409L251.542,163.241C246.286,163.359 241.71,164.865 237.813,167.759C233.915,170.652 228.63,176.794 221.957,186.183L158.714,275.999L140.378,275.999Z" style="fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1.740079,0,-0.240372,1.199533,-137.411133,-14.95078)">
+              <path class="logo-accent" d="M258.867,210.424C270.725,224.031 288.197,251.204 288.197,284.102C288.197,301.873 276.466,313.564 262.016,313.564C247.567,313.564 235.836,300.365 235.836,284.102C235.836,251.368 258.544,249.732 258.867,210.424Z"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <span class="footer-name">CharVim</span>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li>
+      <li><a href="changelog.html">Changelog</a></li>
+      <li><a href="https://github.com/CrtlUserKnown/Charvim" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <p class="footer-copy">Built by <a href="https://github.com/CrtlUserKnown" style="color:var(--accent);text-decoration:none;">CrtlUserKnown</a>. Open source and always free.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

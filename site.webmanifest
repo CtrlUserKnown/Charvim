@@ -1,0 +1,25 @@
+{
+  "name": "CharVim",
+  "short_name": "CharVim",
+  "description": "Neovim, crafted for flow. A custom Neovim configuration built for speed and a seamless development experience.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "browser",
+  "background_color": "#191724",
+  "theme_color": "#191724",
+  "lang": "en",
+  "categories": ["developer tools", "productivity"],
+  "icons": [
+    {
+      "src": "img/favicon/charvim.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "img/favicon/charvim-atl.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
