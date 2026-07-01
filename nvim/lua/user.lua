@@ -1,6 +1,0 @@
--- user.lua — personal customizations (git-ignored, never overwritten by updates)
--- Add keymaps, options, autocommands, or anything else here.
--- This file is loaded last, so it can override any default setting.
---
--- vim.opt.wrap = true
--- vim.keymap.set('n', '<leader>x', ':!echo hi<CR>', { desc = 'My command' })

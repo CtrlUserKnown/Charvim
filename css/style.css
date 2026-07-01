@@ -1325,6 +1325,135 @@ footer {
 .cl-list.fixed   li::before { color: var(--love); }
 .cl-list.removed li::before { color: var(--muted); }
 
+/* === NEOVIM TYPER ANIMATION === */
+.nvim-caret--insert {
+  display: inline-block;
+  width: 2px;
+  height: 0.78em;
+  background: var(--text);
+  vertical-align: text-bottom;
+  animation: nvim-blink 0.8s step-end infinite;
+  transition: background 0.4s;
+}
+
+.nvim-caret--normal {
+  background: var(--text);
+  color: var(--bg);
+  transition: background 0.4s, color 0.4s;
+}
+
+.nvim-bar {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  min-height: 1.1em;
+  margin-top: -0.2rem;
+  margin-bottom: 1rem;
+  opacity: 1;
+  overflow: hidden;
+  transition: opacity 0.4s ease, max-height 0.35s ease, margin 0.35s ease, color 0.4s;
+  max-height: 2rem;
+}
+
+.nvim-bar--insert .nvim-bar-mode { color: var(--foam); }
+
+.nvim-bar--done {
+  opacity: 0;
+  max-height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+}
+
+@keyframes nvim-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* === HAMBURGER OPEN → X === */
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* === THEME FAB (mobile floating theme button) === */
+.theme-fab-wrap {
+  display: none;
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 300;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+}
+
+.theme-fab {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px var(--glow-a);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.4s;
+  flex-shrink: 0;
+}
+
+.theme-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px var(--glow-a); }
+.theme-fab.open  { transform: scale(1.08); }
+
+.theme-fab-popup {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.35);
+  min-width: 160px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px) scale(0.97);
+  transform-origin: bottom right;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.theme-fab-popup.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.theme-fab-popup-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.theme-fab-popup .theme-switcher {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.theme-fab-popup .theme-btn {
+  border-radius: 7px;
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 0.7rem;
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
   .docs-wrap { grid-template-columns: 1fr; }
@@ -1364,10 +1493,23 @@ footer {
 
   .nav-links.open { transform: translateY(0); }
   .theme-switcher { display: none; }
+  .theme-fab-wrap { display: flex; }
 
   .hero-name { font-size: clamp(2.2rem, 12vw, 3.5rem); }
 
   .stats-inner { gap: 2rem; }
+
+  .install-band { padding: 3rem 1.25rem; }
+
+  .code-block {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    text-align: left;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .code-block code { white-space: nowrap; }
 
   .timeline::before { left: 14px; }
   .tl-item { padding-left: 48px; }

@@ -68,13 +68,159 @@ function initNav() {
   const burger = document.querySelector('.hamburger');
   const links  = document.querySelector('.nav-links');
   if (burger && links) {
-    burger.addEventListener('click', () => links.classList.toggle('open'));
+    function closeNav() {
+      links.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+
+    burger.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = links.classList.toggle('open');
+      burger.classList.toggle('open', isOpen);
+      burger.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+
     document.addEventListener('click', e => {
-      if (!burger.contains(e.target) && !links.contains(e.target)) {
-        links.classList.remove('open');
-      }
+      if (!burger.contains(e.target) && !links.contains(e.target)) closeNav();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeNav();
     });
   }
+}
+
+/* === THEME FAB === */
+function initThemeFab() {
+  const fab   = document.querySelector('.theme-fab');
+  const popup = document.querySelector('.theme-fab-popup');
+  if (!fab || !popup) return;
+
+  function closeFab() {
+    popup.classList.remove('open');
+    fab.classList.remove('open');
+    fab.setAttribute('aria-expanded', 'false');
+  }
+
+  fab.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = popup.classList.toggle('open');
+    fab.classList.toggle('open', isOpen);
+    fab.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  popup.addEventListener('click', e => {
+    if (e.target.closest('.theme-btn[data-theme]')) closeFab();
+  });
+
+  document.addEventListener('click', e => {
+    if (!fab.contains(e.target) && !popup.contains(e.target)) closeFab();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeFab();
+  });
+}
+
+/* === NEOVIM TYPER ANIMATION === */
+function initNvimTyper() {
+  const h1 = document.querySelector('.hero-name');
+  if (!h1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const TEXT    = 'CharVim';
+  const CHAR_MS = 72;
+  const wait    = ms => new Promise(r => setTimeout(r, ms));
+
+  // Bar lives in the DOM permanently; starts collapsed
+  const bar = document.createElement('div');
+  bar.className = 'nvim-bar nvim-bar--done';
+  bar.setAttribute('aria-hidden', 'true');
+  bar.innerHTML = '<span class="nvim-bar-mode"> </span>';
+  h1.insertAdjacentElement('afterend', bar);
+  const modeEl = bar.querySelector('.nvim-bar-mode');
+
+  function setNormal(caret, ch) {
+    caret.className    = 'nvim-caret nvim-caret--normal';
+    caret.textContent  = ch;
+    modeEl.textContent = 'NORMAL';
+    bar.className      = 'nvim-bar';
+  }
+
+  function setInsert(caret) {
+    caret.className    = 'nvim-caret nvim-caret--insert';
+    caret.textContent  = '';
+    modeEl.textContent = '-- INSERT --';
+    bar.className      = 'nvim-bar nvim-bar--insert';
+  }
+
+  async function animate() {
+    // Rebuild animation spans fresh each run
+    h1.setAttribute('aria-label', TEXT);
+    h1.innerHTML = '<span class="nvim-pre"></span>'
+                 + '<span class="nvim-caret"></span>'
+                 + '<span class="nvim-post"></span>';
+    const pre   = h1.querySelector('.nvim-pre');
+    const caret = h1.querySelector('.nvim-caret');
+    const post  = h1.querySelector('.nvim-post');
+
+    // 1. NORMAL mode — bar slides in, empty block cursor
+    setNormal(caret, ' ');
+    await wait(280);
+
+    // 2. Enter INSERT
+    setInsert(caret);
+    pre.textContent = '';
+    await wait(110);
+
+    // 3. Type each character
+    let typed = '';
+    for (const ch of TEXT) {
+      typed += ch;
+      pre.textContent = typed;
+      await wait(CHAR_MS);
+    }
+
+    // 4. Hold at end
+    await wait(260);
+
+    // 5. ESC back to NORMAL, cursor on last char
+    pre.textContent  = TEXT.slice(0, -1);
+    post.textContent = '';
+    setNormal(caret, TEXT.at(-1));
+    await wait(180);
+
+    // 6. Cursor travels left to position 0
+    for (let i = TEXT.length - 2; i >= 0; i--) {
+      pre.textContent   = TEXT.slice(0, i);
+      caret.textContent = TEXT[i];
+      post.textContent  = TEXT.slice(i + 1);
+      await wait(38);
+    }
+
+    // 7. Hold on 'C'
+    await wait(340);
+
+    // 8. Bar collapses
+    bar.classList.add('nvim-bar--done');
+    await wait(380);
+
+    // 9. Restore plain h1
+    h1.textContent = TEXT;
+    h1.removeAttribute('aria-label');
+  }
+
+  async function loop() {
+    while (true) {
+      await animate();
+      // Replay every 30-40 s (randomised so it never feels mechanical)
+      await wait(30000 + Math.random() * 10000);
+    }
+  }
+
+  loop();
 }
 
 /* === DOCS SIDEBAR SCROLL HIGHLIGHT === */
@@ -116,4 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initDocsSidebar();
   initThemePreviews();
+  initThemeFab();
+  initNvimTyper();
 });
