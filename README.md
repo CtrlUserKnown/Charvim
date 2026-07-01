@@ -1,4 +1,6 @@
-# Charvim 🔥
+<h1 align="center">
+  <img src="img/charvim-logo.svg" alt="Charvim" width="120">
+</h1>
 
 Charvim is a custom Neovim configuration designed for efficiency, speed, and a seamless development experience. Built on Neovim 0.12+.
 
