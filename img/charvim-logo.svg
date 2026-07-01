@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 317 319" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+<svg width="100%" height="100%" viewBox="0 0 317 380" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&amp;display=swap');
+            .logo-text { font-family: 'JetBrains Mono', monospace; font-size: 36px; font-weight: 500; fill: rgb(224,222,244); text-anchor: middle; }
+        </style>
+    </defs>
     <g transform="matrix(1,0,0,1,-35.917861,-483.662082)">
         <g transform="matrix(1,0,0,1,0,441.294848)">
             <g transform="matrix(2.631266,0,0,2.600643,-317.140351,-356.595763)">
@@ -11,4 +17,5 @@
             </g>
         </g>
     </g>
+    <text class="logo-text" x="158.5" y="355">charvim</text>
 </svg>
